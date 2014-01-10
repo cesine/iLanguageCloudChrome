@@ -7,5 +7,5 @@ document.addEventListener('DOMContentLoaded', function() {
       stopWords: /^(like|feel|soul|around|the|and|that|my|i|of|was|so|with|a|in|when|then|which|these|us|as|me|an|am|at|be|is|by)$/,
       isAndroid: false
     };
-    var cloud = WordCloud(opts).render();
+    var cloud = iLanguageCloud(opts).render();
 }, false);
