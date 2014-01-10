@@ -1,6 +1,8 @@
 {
   "name": "app",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "ilanguage-cloud": "~3.0.0"
+  },
   "devDependencies": {}
 }
