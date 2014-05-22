@@ -15,13 +15,13 @@ WordCloudApp.factory('wordCloudStorage', function() {
 
           var storageHolder = [];
           if (chrome.runtime.lastError || !data || !data[STORAGE_ID]) {
-            console.log("got no wordClouds", data);
+            console.log('got no wordClouds', data);
             /* error */
           } else {
             storageHolder = data[STORAGE_ID];
-            console.log("got some wordClouds", storageHolder);
+            console.log('got some wordClouds', storageHolder);
           }
-          if (typeof callback == "function") {
+          if (typeof callback === 'function') {
             callback(storageHolder);
           }
         });
@@ -29,7 +29,7 @@ WordCloudApp.factory('wordCloudStorage', function() {
 
     put: function(wordClouds) {
       var wordCloudList = JSON.stringify(wordClouds);
-      console.log("setting wordClouds", wordCloudList);
+      console.log('setting wordClouds', wordCloudList);
 
       chrome.storage.sync.set({
         'wordClouds-angularjs-perf': wordClouds

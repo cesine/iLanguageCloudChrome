@@ -2,6 +2,7 @@
   "name": "app",
   "private": true,
   "dependencies": {
+    "angular": "1.2.9",
     "chai": "~1.8.0",
     "mocha": "~1.14.0"
   },

@@ -1,5 +1,4 @@
-/*global wordCloudApp
-WordCloudApp, angular */
+/*global WordCloudApp, angular */
 'use strict';
 
 /**
@@ -19,10 +18,10 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
         completed: false
       }).length;
     }
-  }
+  };
 
   wordCloudStorage.get(function(wordClouds) {
-    console.log("Got some wordClouds", wordClouds);
+    console.log('Got some wordClouds', wordClouds);
     $scope.$apply(function() {
       $scope.load(wordClouds);
     });
