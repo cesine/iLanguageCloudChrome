@@ -2,8 +2,11 @@
 <html lang="en" ng-app="todomvc" data-framework="angularjs">
 	<head>
 		<meta charset="utf-8">
-		<title>AngularJS • TodoMVC</title>
+		<title>iLanguageCloud</title>
+        <!-- build:css styles/main.css -->
 		<link rel="stylesheet" href="bower_components/todomvc-common/base.css">
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild -->
 		<style>[ng-cloak] { display: none; }</style>
 	</head>
 	<body>
@@ -58,6 +61,8 @@
 			</p>
 			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 		</footer>
+        <!-- build:js scripts/index.js -->
+        <script src="bower_components/ilanguage-cloud/dist/ilanguage-cloud.min.js"></script>
 		<script src="bower_components/todomvc-common/base.js"></script>
 		<script src="bower_components/angular/angular.js"></script>
 		<script src="scripts/app.js"></script>
@@ -65,5 +70,6 @@
 		<script src="scripts/services/todoStorage.js"></script>
 		<script src="scripts/directives/todoFocus.js"></script>
 		<script src="scripts/directives/todoEscape.js"></script>
+        <!-- endbuild -->
 	</body>
 </html>

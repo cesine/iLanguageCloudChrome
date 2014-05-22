@@ -1,0 +1,10 @@
+{
+    "appName": {
+        "message": "iLanguageCloud",
+        "description": "The name of the application"
+    },
+    "appDescription": {
+        "message": "Create, save, and share word clouds with iLanguage Cloud. Share text from a website or any another application, or paste text that you'd like to use.",
+        "description": "The description of the application"
+    }
+}
