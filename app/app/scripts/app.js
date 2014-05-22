@@ -3,8 +3,8 @@
 'use strict';
 
 /**
- * The main TodoMVC app module
+ * The main WordCloudMVC app module
  *
  * @type {angular.Module}
  */
-var todomvc = angular.module('todomvc', []);
+var WordCloudApp = angular.module('WordCloudApp', []);

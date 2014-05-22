@@ -1,42 +1,36 @@
-# AngularJS (Performance Optimized) TodoMVC Example
+# iLanguage Cloud Chrome App
 
-> HTML is great for declaring static documents, but it falters when we try to use it for declaring dynamic views in web-applications. AngularJS lets you extend HTML vocabulary for your application. The resulting environment is extraordinarily expressive, readable, and quick to develop.
+Generate interactive wordclouds for any language, with automatic stop word detection and ability to export as svg or png. Save and sync your clouds offline and between various laptops and devices which are able to install chrome apps (Mac, Windows, Linux, ChromeBooks).
 
-> _[AngularJS - angularjs.org](http://angularjs.org)_
+### In the browser
 
+Install from the Chrome Store, or from source. 
 
-## Learning AngularJS
-The [AngularJS website](http://angularjs.org) is a great resource for getting started.
+## From Source
 
-Here are some links you may find helpful:
+You can load the app from source by 
 
-* [Tutorial](http://docs.angularjs.org/tutorial)
-* [API Reference](http://docs.angularjs.org/api)
-* [Developer Guide](http://docs.angularjs.org/guide)
-* [Applications built with AngularJS](http://builtwith.angularjs.org)
-* [Blog](http://blog.angularjs.org)
-* [FAQ](http://docs.angularjs.org/misc/faq)
-* [AngularJS Meetups](http://www.youtube.com/angularjs)
+* Clone the project
+* npm install
+* bower install
+* Load unpacked extension
 
-Articles and guides from the community:
+## More examples of iLanguage Cloud
 
-* [Code School AngularJS course](http://www.codeschool.com/code_tv/angularjs-part-1)
-* [5 Awesome AngularJS Features](http://net.tutsplus.com/tutorials/javascript-ajax/5-awesome-angularjs-features)
-* [Using Yeoman with AngularJS](http://briantford.com/blog/angular-yeoman.html)
-* [me&ngular - an introduction to MVW](http://stephenplusplus.github.io/meangular)
+https://github.com/iLanguage/iLanguageCloud
 
-Get help from other AngularJS users:
+## Contributing
+In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
-* [Walkthroughs and Tutorials on YouTube](http://www.youtube.com/playlist?list=PL1w1q3fL4pmgqpzb-XhG7Clgi67d_OHXz)
-* [Google Groups mailing list](https://groups.google.com/forum/?fromgroups#!forum/angular)
-* [angularjs on Stack Overflow](http://stackoverflow.com/questions/tagged/angularjs)
-* [AngularJS on Twitter](https://twitter.com/angularjs)
-* [AngularjS on Google +](https://plus.google.com/+AngularJS/posts)
+[More details...](CONTRIBUTING.md)
 
-_If you have other helpful links to share, or find any of the links above no longer work, please [let us know](https://github.com/tastejs/todomvc/issues)._
+## Release History
 
+* v1.0 Feb 9 2012 - Initial word cloud using CSS rotation in vanilla js
+* v2.0 Jan 29 2013 - WordPress plugin with SVG generation in vanilla js
+* v3.0 Nov 15 2013 - Switched to Jason Davies' [d3-cloud](https://github.com/iLanguage/d3-cloud) to generate SVG 
+[Download on Google Play](https://play.google.com/store/apps/details?id=ca.ilanguage.ilanguagecloud)
 
-## Implementation
-The normal AngularJS TodoMVC implementation performs deep watching of the todos array object. This means that it keeps an in-memory copy of the complete array that is used for dirty checking in order to detect model mutations. For smaller applications such as TodoMVC, this is completely fine as one trades off a little memory and performance for the sake of simplicity.
-
-In larger more complex applications however, where one might be working with 100s or 1000s of large objects one definitely should avoid using this approach. This implementation of the AngularJS app demonstrates the correct way to approach this problem when working in larger apps.
+## License
+ 
+Copyright (c) 2012-2014 iLanguage Cloud Contributors. Licensed under the Apache 2.0 license.

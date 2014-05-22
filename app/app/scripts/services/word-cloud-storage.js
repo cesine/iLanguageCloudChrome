@@ -1,12 +1,12 @@
-/*global todomvc */
+/*global WordCloudApp */
 'use strict';
 
 /**
  * Services that persists and retrieves TODOs handle when the chrome storage changes from another user
  * https://developer.chrome.com/apps/app_codelab5_data
  */
-todomvc.factory('todoStorage', function() {
-  var STORAGE_ID = 'todos-angularjs-perf';
+WordCloudApp.factory('wordCloudStorage', function() {
+  var STORAGE_ID = 'wordClouds-angularjs-perf';
 
   return {
     get: function(callback) {
@@ -15,11 +15,11 @@ todomvc.factory('todoStorage', function() {
 
           var storageHolder = [];
           if (chrome.runtime.lastError || !data || !data[STORAGE_ID]) {
-            console.log("got no todos", data);
+            console.log("got no wordClouds", data);
             /* error */
           } else {
             storageHolder = data[STORAGE_ID];
-            console.log("got some todos", storageHolder);
+            console.log("got some wordClouds", storageHolder);
           }
           if (typeof callback == "function") {
             callback(storageHolder);
@@ -27,12 +27,12 @@ todomvc.factory('todoStorage', function() {
         });
     },
 
-    put: function(todos) {
-      var todoList = JSON.stringify(todos);
-      console.log("setting todos", todoList);
+    put: function(wordClouds) {
+      var wordCloudList = JSON.stringify(wordClouds);
+      console.log("setting wordClouds", wordCloudList);
 
       chrome.storage.sync.set({
-        'todos-angularjs-perf': todos
+        'wordClouds-angularjs-perf': wordClouds
       });
     }
   };
