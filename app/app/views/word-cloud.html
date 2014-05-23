@@ -1,0 +1,9 @@
+<div class="view">
+  <input class="toggle" type="checkbox" ng-model="wordCloud.archived" ng-change="wordCloudArchived(wordCloud)">
+  <label ng-dblclick="editWordCloud(wordCloud)">{{wordCloud.title}}</label>
+  <div data-word-cloud-viz class="word-cloud-viz"></div>
+  <button class="destroy" ng-click="removeWordCloud(wordCloud)"></button>
+</div>
+<form ng-submit="doneEditing(wordCloud)">
+  <textarea class="edit" ng-trim="false" ng-model="wordCloud.title" ng-blur="doneEditing(wordCloud)" word-cloud-escape="revertEditing(wordCloud)" word-cloud-focus="wordCloud == editedWordCloud"> </textarea>
+</form>

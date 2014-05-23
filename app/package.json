@@ -16,8 +16,8 @@
     "grunt-contrib-htmlmin": "~0.1.3",
     "grunt-contrib-imagemin": "~0.2.0",
     "grunt-contrib-compress": "~0.5.3",
-    "grunt-contrib-watch": "~0.5.2", 
-    "grunt-usemin": "~0.1.10", 
+    "grunt-contrib-watch": "~0.5.2",
+    "grunt-usemin": "~0.1.10",
     "grunt-mocha": "~0.3.0",
     "grunt-open": "~0.2.0",
     "grunt-svgmin": "~0.2.0",
@@ -25,7 +25,15 @@
     "load-grunt-tasks": "~0.1.0",
     "grunt-chrome-manifest": "~0.2.0",
     "time-grunt": "~0.1.1",
-    "jshint-stylish": "~0.1.3"
+    "jshint-stylish": "~0.1.3",
+    "karma-ng-scenario": "^0.1.0",
+    "grunt-karma": "^0.8.2",
+    "karma": "^0.12.12",
+    "karma-ng-html2js-preprocessor": "^0.1.0",
+    "grunt-angular-templates": "^0.5.4",
+    "karma-jasmine": "^0.1.5",
+    "karma-chrome-launcher": "^0.1.3",
+    "karma-html2js-preprocessor": "^0.1.0"
   },
   "engines": {
     "node": ">=0.8.0"

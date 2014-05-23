@@ -1,18 +1,61 @@
 <!doctype html>
-<html>
+<html lang="en" ng-app="WordCloudApp" data-framework="angularjs">
     <head>
         <meta charset="utf-8">
         <title>iLanguageCloud</title>
         <!-- build:css styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
+        <style>[ng-cloak] { display: none; }</style>
     </head>
     <body>
-        <div id="cloud"></div>
-
+        <section class="word-cloud-app" ng-controller="WordCloudCtrl">
+            <header class="header">
+                <h1>word clouds</h1>
+                <form id="word-cloud-form" ng-submit="addWordCloud()">
+                    <input class="new-word-cloud" placeholder="Paste your text here..." ng-model="newWordCloud" autofocus>
+                </form>
+            </header>
+            <section class="main" ng-show="wordClouds.length" ng-cloak>
+                <input class="toggle-all" id="toggle-all" type="checkbox" ng-model="allChecked" ng-click="markAll(allChecked)">
+                <label for="toggle-all">Mark all as archive</label>
+                <ul class="word-cloud-list">
+                    <li data-word-cloud ng-repeat="wordCloud in wordClouds | filter:statusFilter track by $index" ng-class="{archived: wordCloud.archived, editing: wordCloud == editedWordCloud}">
+                    </li>
+                </ul>
+            </section>
+            <footer class="word-cloud-list-footer">
+                <span class="word-cloud-count"><strong>{{remainingCount}}</strong>
+                    <ng-pluralize count="remainingCount" when="{ one: 'item left', other: 'items left' }"></ng-pluralize>
+                </span>
+                <ul class="filters">
+                    <li>
+                        <a ng-class="{selected: location.path() == '/'} " href="#/">All</a>
+                    </li>
+                    <li>
+                        <a ng-class="{selected: location.path() == '/active'}" href="#/active">Active</a>
+                    </li>
+                    <li>
+                        <a ng-class="{selected: location.path() == '/archived'}" href="#/archived">Archived</a>
+                    </li>
+                </ul>
+                <button class="clear-archived" ng-click="clearArchivedWordClouds()" ng-show="remainingCount < wordClouds.length">Clear archived ({{wordClouds.length - remainingCount}})</button>
+            </footer>
+        </section>
+        <footer class="info" id="cloud">
+            <p>Double-click to edit a cloud</p>
+            <p hidden >OpenSource code available on <a href="https://github.com/iLanguage/iLanguageCloudChrome">https://github.com/iLanguage/iLanguageCloudChrome</a></p>
+        </footer>
         <!-- build:js scripts/index.js -->
         <script src="bower_components/ilanguage-cloud/dist/ilanguage-cloud.min.js"></script>
-        <script src="scripts/index.js"></script>
+        <script src="bower_components/angular/angular.min.js"></script>
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/word-cloud-controller.js"></script>
+        <script src="scripts/services/word-cloud-storage.js"></script>
+        <script src="scripts/directives/word-cloud-focus.js"></script>
+        <script src="scripts/directives/word-cloud-escape.js"></script>
+        <script src="scripts/directives/word-cloud.js"></script>
+        <script src="scripts/directives/word-cloud-viz.js"></script>
         <!-- endbuild -->
     </body>
 </html>
