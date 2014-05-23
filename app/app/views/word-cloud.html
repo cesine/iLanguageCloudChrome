@@ -1,6 +1,7 @@
 <div class="view">
-  <input class="toggle" type="checkbox" ng-model="wordCloud.completed" ng-change="wordCloudCompleted(wordCloud)">
+  <input class="toggle" type="checkbox" ng-model="wordCloud.archived" ng-change="wordCloudArchived(wordCloud)">
   <label ng-dblclick="editWordCloud(wordCloud)">{{wordCloud.title}}</label>
+  <div data-word-cloud-viz class="word-cloud-viz"></div>
   <button class="destroy" ng-click="removeWordCloud(wordCloud)"></button>
 </div>
 <form ng-submit="doneEditing(wordCloud)">

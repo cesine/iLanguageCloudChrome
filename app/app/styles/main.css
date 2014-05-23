@@ -2,6 +2,18 @@ html,
 body {
   margin: 0;
   padding: 0;
+  overflow: auto;
+  font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.4em;
+  background: #eaeaea;
+  color: #4d4d4d;
+  /*width: 550px;*/
+  margin: 0 auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -ms-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
+  font-smoothing: antialiased;
 }
 
 button {
@@ -17,20 +29,6 @@ button {
   -ms-appearance: none;
   -o-appearance: none;
   appearance: none;
-}
-
-body {
-  font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  line-height: 1.4em;
-  background: #eaeaea;
-  color: #4d4d4d;
-  width: 550px;
-  margin: 0 auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-font-smoothing: antialiased;
-  -ms-font-smoothing: antialiased;
-  -o-font-smoothing: antialiased;
-  font-smoothing: antialiased;
 }
 
 button,
@@ -174,6 +172,10 @@ label[for='toggle-all'] {
   color: #737373;
 }
 
+.word-cloud-viz {
+  text-align: center;
+}
+
 .word-cloud-list {
   margin: 0;
   padding: 0;
@@ -250,7 +252,7 @@ label[for='toggle-all'] {
   transition: color 0.4s;
 }
 
-.word-cloud-list li.completed label {
+.word-cloud-list li.archived label {
   color: #a9a9a9;
   text-decoration: line-through;
 }
@@ -349,7 +351,7 @@ label[for='toggle-all'] {
   font-weight: bold;
 }
 
-.clear-completed {
+.clear-archived {
   float: right;
   position: relative;
   line-height: 20px;
@@ -361,7 +363,7 @@ label[for='toggle-all'] {
   box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.2);
 }
 
-.clear-completed:hover {
+.clear-archived:hover {
   background: rgba(0, 0, 0, 0.15);
   box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.3);
 }

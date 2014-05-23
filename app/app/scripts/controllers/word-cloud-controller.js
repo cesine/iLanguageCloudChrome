@@ -15,7 +15,7 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     if (value) {
       wordClouds = $scope.wordClouds = value;
       $scope.remainingCount = $filter('filter')(wordClouds, {
-        completed: false
+        archived: false
       }).length;
     }
   };
@@ -40,10 +40,10 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
   $scope.$watch('location.path()', function(path) {
     $scope.statusFilter = {
       '/active': {
-        completed: false
+        archived: false
       },
-      '/completed': {
-        completed: true
+      '/archived': {
+        archived: true
       }
     }[path];
   });
@@ -60,7 +60,7 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
 
     wordClouds.push({
       title: newWordCloud,
-      completed: false
+      archived: false
     });
     wordCloudStorage.put(wordClouds);
 
@@ -91,28 +91,28 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
   };
 
   $scope.removeWordCloud = function(wordCloud) {
-    $scope.remainingCount -= wordCloud.completed ? 0 : 1;
+    $scope.remainingCount -= wordCloud.archived ? 0 : 1;
     wordClouds.splice(wordClouds.indexOf(wordCloud), 1);
     wordCloudStorage.put(wordClouds);
   };
 
-  $scope.wordCloudCompleted = function(wordCloud) {
-    $scope.remainingCount += wordCloud.completed ? -1 : 1;
+  $scope.wordCloudArchived = function(wordCloud) {
+    $scope.remainingCount += wordCloud.archived ? -1 : 1;
     wordCloudStorage.put(wordClouds);
   };
 
-  $scope.clearCompletedWordClouds = function() {
+  $scope.clearArchivedWordClouds = function() {
     $scope.wordClouds = wordClouds = wordClouds.filter(function(val) {
-      return !val.completed;
+      return !val.archived;
     });
     wordCloudStorage.put(wordClouds);
   };
 
-  $scope.markAll = function(completed) {
+  $scope.markAll = function(archived) {
     wordClouds.forEach(function(wordCloud) {
-      wordCloud.completed = !completed;
+      wordCloud.archived = !archived;
     });
-    $scope.remainingCount = completed ? wordClouds.length : 0;
+    $scope.remainingCount = archived ? wordClouds.length : 0;
     wordCloudStorage.put(wordClouds);
   };
 });

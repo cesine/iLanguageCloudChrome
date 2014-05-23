@@ -11,16 +11,16 @@
     <body>
         <section class="word-cloud-app" ng-controller="WordCloudCtrl">
             <header class="header">
-                <h1>clouds</h1>
+                <h1>word clouds</h1>
                 <form id="word-cloud-form" ng-submit="addWordCloud()">
-                    <input class="new-word-cloud" placeholder="What needs to be done?" ng-model="newWordCloud" autofocus>
+                    <input class="new-word-cloud" placeholder="Paste your text here..." ng-model="newWordCloud" autofocus>
                 </form>
             </header>
             <section class="main" ng-show="wordClouds.length" ng-cloak>
                 <input class="toggle-all" id="toggle-all" type="checkbox" ng-model="allChecked" ng-click="markAll(allChecked)">
-                <label for="toggle-all">Mark all as complete</label>
+                <label for="toggle-all">Mark all as archive</label>
                 <ul class="word-cloud-list">
-                    <li data-word-cloud ng-repeat="wordCloud in wordClouds | filter:statusFilter track by $index" ng-class="{completed: wordCloud.completed, editing: wordCloud == editedWordCloud}">
+                    <li data-word-cloud ng-repeat="wordCloud in wordClouds | filter:statusFilter track by $index" ng-class="{archived: wordCloud.archived, editing: wordCloud == editedWordCloud}">
                     </li>
                 </ul>
             </section>
@@ -36,13 +36,13 @@
                         <a ng-class="{selected: location.path() == '/active'}" href="#/active">Active</a>
                     </li>
                     <li>
-                        <a ng-class="{selected: location.path() == '/completed'}" href="#/completed">Completed</a>
+                        <a ng-class="{selected: location.path() == '/archived'}" href="#/archived">Archived</a>
                     </li>
                 </ul>
-                <button class="clear-completed" ng-click="clearCompletedWordClouds()" ng-show="remainingCount < wordClouds.length">Clear completed ({{wordClouds.length - remainingCount}})</button>
+                <button class="clear-archived" ng-click="clearArchivedWordClouds()" ng-show="remainingCount < wordClouds.length">Clear archived ({{wordClouds.length - remainingCount}})</button>
             </footer>
         </section>
-        <footer class="info">
+        <footer class="info" id="cloud">
             <p>Double-click to edit a cloud</p>
             <p hidden >OpenSource code available on <a href="https://github.com/iLanguage/iLanguageCloudChrome">https://github.com/iLanguage/iLanguageCloudChrome</a></p>
         </footer>
@@ -55,6 +55,7 @@
         <script src="scripts/directives/word-cloud-focus.js"></script>
         <script src="scripts/directives/word-cloud-escape.js"></script>
         <script src="scripts/directives/word-cloud.js"></script>
+        <script src="scripts/directives/word-cloud-viz.js"></script>
         <!-- endbuild -->
     </body>
 </html>
