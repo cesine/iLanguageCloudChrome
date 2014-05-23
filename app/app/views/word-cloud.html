@@ -5,5 +5,5 @@
   <button class="destroy" ng-click="removeWordCloud(wordCloud)"></button>
 </div>
 <form ng-submit="doneEditing(wordCloud)">
-  <input class="edit" ng-trim="false" ng-model="wordCloud.title" ng-blur="doneEditing(wordCloud)" word-cloud-escape="revertEditing(wordCloud)" word-cloud-focus="wordCloud == editedWordCloud">
+  <textarea class="edit" ng-trim="false" ng-model="wordCloud.title" ng-blur="doneEditing(wordCloud)" word-cloud-escape="revertEditing(wordCloud)" word-cloud-focus="wordCloud == editedWordCloud"> </textarea>
 </form>
