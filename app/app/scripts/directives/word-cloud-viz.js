@@ -13,26 +13,32 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
         font: '',
         element: [],
         height: 200,
-        stopWords: ''
+        stopWords: /^(და|აის|კასატორი|არ|მე|მიერ|თუ|არა|ფი|ეს|არის|მის|ან)$/
+        // |სა-, სტა-,იმის,-ში/
       };
       console.log('in controller wordCloudViz');
-
-      // $scope.wordCloud.stopWords = /^(like|feel|soul|around|the|and|that|my|i|of|was|so|with|a|in|when|then|which|these|us|as|me|an|am|at|be|is|by)$/;
       $scope.wordCloud.font = 'FreeSerif';
-      $scope.wordCloud.text = $scope.wordCloud.title;
 
       cloud.text = $scope.wordCloud.text;
       /* dont make clouds of short texts */
-      if (cloud.text.length < 20) {
+      if (!cloud.text || cloud.text.length < 20) {
         return;
       }
 
       /* make the longer texts have more space */
-      if (cloud.text.length > 300) {
+      if (cloud.text && cloud.text.length > 300) {
         cloud.height = 400;
       } else {
         cloud.height = 200;
       }
+
+      if (!$scope.wordCloud.title && $scope.wordCloud.text) {
+        var titleLength = $scope.wordCloud.text.length > 31 ? 30 : $scope.wordCloud.text.length - 1;
+        $scope.wordCloud.title = $scope.wordCloud.text.substring(0, titleLength) +"...";
+      }
+      // $scope.wordCloud.stopWords = /^(like|feel|soul|around|the|and|that|my|i|of|was|so|with|a|in|when|then|which|these|us|as|me|an|am|at|be|is|by)$/;
+      $scope.wordCloud.stopWordsSpaceSeparated = $scope.wordCloud.stopWordsSpaceSeparated;
+      $scope.wordCloud.morphemes = $scope.wordCloud.morphemes;
 
       cloud.element = $element[0];
       cloud.stopWords = $scope.wordCloud.stopWords;

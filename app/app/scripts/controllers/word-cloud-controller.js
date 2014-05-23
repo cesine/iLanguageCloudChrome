@@ -59,7 +59,7 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     }
 
     wordClouds.push({
-      title: newWordCloud,
+      text: newWordCloud,
       archived: false
     });
     wordCloudStorage.put(wordClouds);
@@ -76,9 +76,9 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
 
   $scope.doneEditing = function(wordCloud) {
     $scope.editedWordCloud = null;
-    wordCloud.title = wordCloud.title.trim();
+    wordCloud.text = wordCloud.text.trim();
 
-    if (!wordCloud.title) {
+    if (!wordCloud.text) {
       $scope.removeWordCloud(wordCloud);
     }
 
