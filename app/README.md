@@ -6,6 +6,8 @@ Generate interactive wordclouds for any language, with automatic stop word detec
 
 Install from the Chrome Store, or from source. 
 
+https://chrome.google.com/webstore/detail/ilanguagecloud/jgnohfgfghkpfofkljhmikdpohajopan
+
 ## From Source
 
 You can load the app from source by 
