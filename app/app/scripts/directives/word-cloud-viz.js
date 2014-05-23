@@ -1,3 +1,4 @@
+/*global  iLanguageCloud */
 'use strict';
 
 angular.module('WordCloudApp').directive('wordCloudViz', function() {
@@ -5,7 +6,7 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
   return {
     template: '<div></div>',
     restrict: 'A',
-    controller: function($scope, $element, $attrs, $transclude) {
+    controller: function($scope, $element) {
       var cloud = {
         text: '',
         isAndroid: false,
@@ -46,7 +47,7 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
       //   cloud.render();
       // });
     },
-    link: function postLink(scope, element, attrs) {
+    link: function postLink() {
       // element.text('this is the wordCloudViz directive');
       // cloud.text = scope.wordCloud.text;
       // cloud.render();
