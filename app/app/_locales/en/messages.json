@@ -4,7 +4,7 @@
         "description": "The name of the application"
     },
     "appDescription": {
-        "message": "Create, save, and share word clouds with iLanguage Cloud. (Supports any language and any Unicode charset)",
+        "message": "Create, save, and share word clouds.",
         "description": "The description of the application"
     }
 }
