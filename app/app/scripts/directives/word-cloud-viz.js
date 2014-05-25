@@ -21,8 +21,8 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
         font: $scope.wordCloud.font || 'FreeSerif',
         element: $element[0],
         height: 200,
-        // stopWordsArray: ["და", "აის", "კასატორი", "არ", "მე", "მიერ", "თუ", "არა", "ფი", "ეს", "არის", "მის", "ან"],
-        stopWordsArray: $scope.wordCloud.stopWordsArray || [],
+        // nonContentWordsArray: ["და", "აის", "კასატორი", "არ", "მე", "მიერ", "თუ", "არა", "ფი", "ეს", "არის", "მის", "ან"],
+        nonContentWordsArray: $scope.wordCloud.nonContentWordsArray || [],
         prefixesArray: $scope.wordCloud.prefixesArray || [], // |სა-, სტა-,იმის,-ში/
         suffixesArray: $scope.wordCloud.suffixesArray || [],
         punctuationArray: $scope.wordCloud.punctuationArray || [],
@@ -47,7 +47,7 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
       cloud = iLanguageCloud(cloud);
 
       $scope.wordCloud.title = cloud.title;
-      $scope.wordCloud.stopWordsSpaceSeparated = cloud.stopWordsArray.join(' ').trim();
+      $scope.wordCloud.nonContentWordsSpaceSeparated = cloud.nonContentWordsArray.join(' ').trim();
       $scope.wordCloud.morphemesSpaceSeparated = (cloud.prefixesArray.join(' ') + ' ' + cloud.suffixesArray.join(' ')).trim();
       $scope.wordCloud.punctuationSpaceSeparated = cloud.punctuationArray.join(' ').trim();
       // $scope.wordCloud.wordFrequenciesLineBreakSeparated = cloud.wordFrequencies.map(function(word) {
@@ -57,36 +57,90 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
 
       /* when to re-generate the morpheme segmented text */
       $scope.$watch('wordCloud.text', function(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          return;
+        }
+        cloud.inputText = newValue;
         cloud.runSegmenter();
-        $scope.wordCloud.segmentedText = cloud.segmentedText;
+        if (cloud.segmentedText !== $scope.wordCloud.segmentedText) {
+          $scope.wordCloud.segmentedText = cloud.segmentedText;
+        }
       });
       $scope.$watch('wordCloud.morphemesSpaceSeparated', function(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          return;
+        }
+        cloud.prefixesArray = [];
+        cloud.suffixesArray = [];
+        newValue.split(' ').map(function(morpheme) {
+          if (morpheme.indexOf('-') === 0) {
+            cloud.prefixesArray.push(morpheme);
+          } else {
+            cloud.suffixesArray.push(morpheme);
+          }
+        });
         cloud.runSegmenter();
-        $scope.wordCloud.segmentedText = cloud.segmentedText;
+        if (cloud.segmentedText !== $scope.wordCloud.segmentedText) {
+          $scope.wordCloud.segmentedText = cloud.segmentedText;
+        }
       });
 
       /* when to re-generate the lexical experience */
       $scope.$watch('wordCloud.segmentedText', function(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          return;
+        }
+        cloud.segmentedText = newValue;
         cloud.runWordFrequencyGenerator();
-        $scope.wordCloud.lexicalExperienceJSON = JSON.stringify(cloud.lexicalExperience);
+        var newLexicalExperience = JSON.stringify(cloud.lexicalExperience);
+        if (newLexicalExperience !== $scope.wordCloud.lexicalExperienceJSON) {
+          $scope.wordCloud.lexicalExperienceJSON = newLexicalExperience;
+        }
       });
       $scope.$watch('wordCloud.punctuationSpaceSeparated', function(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          return;
+        }
+        cloud.punctuationArray = newValue.split(' ');
         cloud.runWordFrequencyGenerator();
-        $scope.wordCloud.lexicalExperienceJSON = JSON.stringify(cloud.lexicalExperience);
+        var newLexicalExperience = JSON.stringify(cloud.lexicalExperience);
+        if (newLexicalExperience !== $scope.wordCloud.lexicalExperienceJSON) {
+          $scope.wordCloud.lexicalExperienceJSON = newLexicalExperience;
+        }
       });
 
       /* when to re-generate the frequency list */
-      $scope.$watch('wordCloud.stopWordsSpaceSeparated', function(newValue, oldValue) {
+      $scope.$watch('wordCloud.nonContentWordsSpaceSeparated', function(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          return;
+        }
+        cloud.nonContentWordsArray = newValue.split(' ');
+        var previousWordFrequencyLength = cloud.wordFrequencies.length;
         cloud.runStemmer();
-        $scope.wordCloud.wordFrequenciesLineBreakSeparated = cloud.wordFrequencies.map(function(word) {
-          return word.orthography + ' ' + word.count;
-        }).join('\n');
+        /* very conservative update of the word frequency list, to reduce re-drawing... */
+        if (previousWordFrequencyLength !== cloud.wordFrequencies.length) {
+          $scope.wordCloud.wordFrequenciesLineBreakSeparated = cloud.wordFrequencies.map(function(word) {
+            return word.orthography + ' ' + word.count;
+          }).join('\n');
+        }
       });
       $scope.$watch('wordCloud.lexicalExperienceJSON', function(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          return;
+        }
+        try {
+          cloud.lexicalExperience = JSON.parse(newValue);
+        } catch (e) {
+          console.warn(e);
+          return;
+        }
+        var previousWordFrequencyLength = cloud.wordFrequencies.length;
         cloud.runStemmer();
-        $scope.wordCloud.wordFrequenciesLineBreakSeparated = cloud.wordFrequencies.map(function(word) {
-          return word.orthography + ' ' + word.count;
-        }).join('\n');
+        if (previousWordFrequencyLength !== cloud.wordFrequencies.length) {
+          $scope.wordCloud.wordFrequenciesLineBreakSeparated = cloud.wordFrequencies.map(function(word) {
+            return word.orthography + ' ' + word.count;
+          }).join('\n');
+        }
       });
 
       /* when to re-generate the word cloud visualization */
