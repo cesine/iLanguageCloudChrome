@@ -37,7 +37,8 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
         $scope.wordCloud.title = $scope.wordCloud.text.substring(0, titleLength) + '...';
       }
       // $scope.wordCloud.stopWords = /^(like|feel|soul|around|the|and|that|my|i|of|was|so|with|a|in|when|then|which|these|us|as|me|an|am|at|be|is|by)$/;
-      $scope.wordCloud.stopWordsSpaceSeparated = $scope.wordCloud.stopWordsSpaceSeparated;
+      $scope.wordCloud.stopWordsSpaceSeparated = $scope.wordCloud.stopWordsSpaceSeparated || '';
+      $scope.wordCloud.stopWordsArray = $scope.wordCloud.stopWordsSpaceSeparated.split(' ');
       $scope.wordCloud.morphemes = $scope.wordCloud.morphemes;
 
       cloud.element = $element[0];
@@ -46,6 +47,8 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
 
       window.opts = cloud;
       cloud = iLanguageCloud(cloud).render();
+      $scope.wordCloud.stopWordsArray = cloud.stopWordsArray;
+      $scope.wordCloud.stopWordsSpaceSeparated = cloud.stopWordsArray.join(' ');
       console.log(cloud);
 
       // $scope.$watch($scope.wordCloud.title, function(newValue, oldValue) {
