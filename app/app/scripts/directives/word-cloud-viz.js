@@ -34,7 +34,7 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
 
       if (!$scope.wordCloud.title && $scope.wordCloud.text) {
         var titleLength = $scope.wordCloud.text.length > 31 ? 30 : $scope.wordCloud.text.length - 1;
-        $scope.wordCloud.title = $scope.wordCloud.text.substring(0, titleLength) +"...";
+        $scope.wordCloud.title = $scope.wordCloud.text.substring(0, titleLength) + '...';
       }
       // $scope.wordCloud.stopWords = /^(like|feel|soul|around|the|and|that|my|i|of|was|so|with|a|in|when|then|which|these|us|as|me|an|am|at|be|is|by)$/;
       $scope.wordCloud.stopWordsSpaceSeparated = $scope.wordCloud.stopWordsSpaceSeparated;
