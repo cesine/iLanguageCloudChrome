@@ -1,4 +1,3 @@
-/*global  iLanguageCloud */
 'use strict';
 
 angular.module('WordCloudApp').directive('wordCloudViz', function() {
@@ -104,6 +103,9 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
 
       /* when to re-generate the word $scope.wordCloud visualization */
       $scope.$watch('wordCloud.wordFrequenciesLineBreakSeparated', function(newValue, oldValue) {
+        if (newValue === oldValue) {
+          return;
+        }
         $scope.wordCloud.render();
       });
 

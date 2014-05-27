@@ -20,21 +20,23 @@ WordCloudApp.factory('wordCloudStorage', function() {
         } else {
           storageHolder = JSON.parse(data[STORAGE_ID]);
           console.log('got some wordClouds', storageHolder);
+
+          var forEachfuncion = function(thisCloud, indexInStorage) {
+            self.getId(thisCloud.id, function(wordCloud) {
+              thisCloud.orthography = wordCloud.orthography || 'Word cloud is missing text.';
+              console.log('Filled ', thisCloud);
+              if (indexInStorage === storageHolder.length - 1) {
+                if (typeof callbackForGetIndex === 'function') {
+                  callbackForGetIndex(storageHolder);
+                }
+              } else {
+                console.log('Not resolving storage yet');
+              }
+            });
+          };
           for (var cloudIndex = 0; cloudIndex < storageHolder.length; cloudIndex++) {
 
-            (function(thisCloud, indexInStorage) {
-              self.getId(thisCloud.id, function(wordCloud) {
-                thisCloud.orthography = wordCloud.orthography || 'Word cloud is missing text.';
-                console.log("Filled ", thisCloud);
-                if (indexInStorage === storageHolder.length - 1) {
-                  if (typeof callbackForGetIndex === 'function') {
-                    callbackForGetIndex(storageHolder);
-                  }
-                } else {
-                  console.log("Not resolving storage yet");
-                }
-              });
-            })(storageHolder[cloudIndex], cloudIndex);
+            forEachfuncion(storageHolder[cloudIndex], cloudIndex);
 
           }
         }
@@ -42,7 +44,7 @@ WordCloudApp.factory('wordCloudStorage', function() {
     },
 
     getId: function(id, callbackFromGetId) {
-      console.log("looking for " + id);
+      console.log('looking for ' + id);
       chrome.storage.sync.get(id, function(data) {
         var wordCloud = {};
         if (chrome.runtime.lastError || !data || !data[id]) {
@@ -53,24 +55,25 @@ WordCloudApp.factory('wordCloudStorage', function() {
           console.log('got a wordCloud', wordCloud);
         }
         if (typeof callbackFromGetId === 'function') {
-          console.log("Fetched ", wordCloud);
+          console.log('Fetched ', wordCloud);
           callbackFromGetId(wordCloud);
         } else {
-          console.log("never gets to the callbackFromGetId");
+          console.log('never gets to the callbackFromGetId');
         }
       });
     },
 
     put: function(wordClouds) {
-      var wordCloudIndex = []
+      var wordCloudIndex = [];
       wordClouds.map(function(wordCloud) {
         var indexable = {
           title: wordCloud.title,
           id: wordCloud.id || Date.now(),
-        }
+        };
         wordCloudIndex.push(indexable);
         //save this cloud's orthography
         var id = indexable.id;
+        console.log(id);
         chrome.storage.sync.set({
           id: JSON.stringify({
             orthography: wordCloud.orthography

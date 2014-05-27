@@ -4,8 +4,8 @@
 /**
  * Services that persists and retrieves to a server
  */
-WordCloudApp.factory('wordCloudStorage', function($http) {
-  var USERNAME_STORAGE = 'wordClouds-username';
+WordCloudApp.factory('wordCloudStorage', function() {
+  // var USERNAME_STORAGE = 'wordClouds-username';
   var username = 'anonymouswordclouduser1401218737791';
   var dbname = 'anonymouswordclouduser1401218737791-firstcorpus';
 
@@ -31,9 +31,9 @@ WordCloudApp.factory('wordCloudStorage', function($http) {
     //     });
     //   }
     //   dbname = username + '-firstcorpus';
-      if (typeof callbackForGettingUsername === 'function') {
-        callbackForGettingUsername();
-      }
+    if (typeof callbackForGettingUsername === 'function') {
+      callbackForGettingUsername();
+    }
     // });
   };
 
@@ -46,32 +46,32 @@ WordCloudApp.factory('wordCloudStorage', function($http) {
           dbname: dbname,
           url: 'https://localhost:6984'
         });
-        console.log("fetching clouds for ", db.toJSON());
+        console.log('fetching clouds for ', db.toJSON());
         db.fetchAllDocuments().then(function(someclouds) {
           console.log(someclouds);
           if (typeof callbackForGettingClouds === 'function') {
             callbackForGettingClouds(someclouds);
           }
         }, function(reason) {
-          console.log("No clouds...", reason);
+          console.log('No clouds...', reason);
         });
       };
 
       if (!username) {
-        getUserName(onceUsernameIsKnown)
+        getUserName(onceUsernameIsKnown);
       } else {
         onceUsernameIsKnown();
       }
 
     },
 
-    getId: function(id) {
+    // getId: function(id) {
 
-    },
+    // },
 
-    put: function(wordClouds) {
+    // put: function(wordClouds) {
 
-    },
+    // },
     dbUrl: function() {
       return 'https://localhost:6984/' + dbname;
     }
