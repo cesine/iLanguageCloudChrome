@@ -59,8 +59,14 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     }
 
     wordClouds.push({
-      text: newWordCloud,
-      archived: false
+      orthography: newWordCloud,
+      archived: false,
+      nonContentWordsArray: [],
+      prefixesArray: [], // |სა-, სტა-,იმის,-ში/
+      suffixesArray: [],
+      punctuationArray: [],
+      wordFrequencies: [],
+      lexicalExperience: {}
     });
     wordCloudStorage.put(wordClouds);
 
@@ -76,9 +82,9 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
 
   $scope.doneEditing = function(wordCloud) {
     $scope.editedWordCloud = null;
-    wordCloud.text = wordCloud.text.trim();
+    wordCloud.orthography = wordCloud.orthography.trim();
 
-    if (!wordCloud.text) {
+    if (!wordCloud.orthography) {
       $scope.removeWordCloud(wordCloud);
     }
 

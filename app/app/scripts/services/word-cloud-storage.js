@@ -29,7 +29,7 @@ WordCloudApp.factory('wordCloudStorage', function() {
 
     put: function(wordClouds) {
       var wordCloudList = JSON.stringify(wordClouds);
-      console.log('setting wordClouds', wordCloudList);
+      console.log('setting wordClouds');
 
       chrome.storage.sync.set({
         'wordClouds-angularjs-perf': wordClouds
