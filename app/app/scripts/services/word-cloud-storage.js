@@ -1,88 +1,79 @@
-/*global WordCloudApp */
+/*global WordCloudApp, iLanguageClouds */
 'use strict';
 
 /**
- * Services that persists and retrieves TODOs handle when the chrome storage changes from another user
- * https://developer.chrome.com/apps/app_codelab5_data
+ * Services that persists and retrieves to a server
  */
-WordCloudApp.factory('wordCloudStorage', function() {
-  var STORAGE_ID = 'wordClouds-index';
+WordCloudApp.factory('wordCloudStorage', function($http) {
+  var USERNAME_STORAGE = 'wordClouds-username';
+  var username = 'anonymouswordclouduser1401218737791';
+  var dbname = 'anonymouswordclouduser1401218737791-firstcorpus';
+
+  var db;
+  var getUserName = function(callbackForGettingUsername) {
+
+    // chrome.storage.sync.get(USERNAME_STORAGE, function(data) {
+
+    //   var username = [];
+    //   if (chrome.runtime.lastError || !data || !data[USERNAME_STORAGE]) {
+    //     console.log('got no username', data);
+    //     /* error */
+    //   } else {
+    //     username = data[USERNAME_STORAGE];
+    //     console.log('got some wordClouds', username);
+
+    //   }
+    //   if (!username || username.length === 0) {
+    //     username = 'anonymouswordclouduser' + Date.now();
+    //     //Register user
+    //     chrome.storage.sync.set({
+    //       USERNAME_STORAGE: username
+    //     });
+    //   }
+    //   dbname = username + '-firstcorpus';
+      if (typeof callbackForGettingUsername === 'function') {
+        callbackForGettingUsername();
+      }
+    // });
+  };
 
   return {
-    get: function(callbackForGetIndex) {
-      var self = this;
-      chrome.storage.sync.get(STORAGE_ID, function(data) {
+    get: function(callbackForGettingClouds) {
 
-        var storageHolder = [];
-        if (chrome.runtime.lastError || !data || !data[STORAGE_ID]) {
-          console.log('got no wordClouds', data);
-          /* error */
-        } else {
-          storageHolder = JSON.parse(data[STORAGE_ID]);
-          console.log('got some wordClouds', storageHolder);
-          for (var cloudIndex = 0; cloudIndex < storageHolder.length; cloudIndex++) {
-
-            (function(thisCloud, indexInStorage) {
-              self.getId(thisCloud.id, function(wordCloud) {
-                thisCloud.orthography = wordCloud.orthography || 'Word cloud is missing text.';
-                console.log("Filled ", thisCloud);
-                if (indexInStorage === storageHolder.length - 1) {
-                  if (typeof callbackForGetIndex === 'function') {
-                    callbackForGetIndex(storageHolder);
-                  }
-                } else {
-                  console.log("Not resolving storage yet");
-                }
-              });
-            })(storageHolder[cloudIndex], cloudIndex);
-
+      var onceUsernameIsKnown = function() {
+        db = db || new iLanguageClouds({
+          username: username,
+          dbname: dbname,
+          url: 'https://localhost:6984'
+        });
+        console.log("fetching clouds for ", db.toJSON());
+        db.fetchAllDocuments().then(function(someclouds) {
+          console.log(someclouds);
+          if (typeof callbackForGettingClouds === 'function') {
+            callbackForGettingClouds(someclouds);
           }
-        }
-      });
+        }, function(reason) {
+          console.log("No clouds...", reason);
+        });
+      };
+
+      if (!username) {
+        getUserName(onceUsernameIsKnown)
+      } else {
+        onceUsernameIsKnown();
+      }
+
     },
 
-    getId: function(id, callbackFromGetId) {
-      console.log("looking for " + id);
-      chrome.storage.sync.get(id, function(data) {
-        var wordCloud = {};
-        if (chrome.runtime.lastError || !data || !data[id]) {
-          console.log('got no wordCloud at this id', data);
-          /* error */
-        } else {
-          wordCloud = JSON.parser(data[id]);
-          console.log('got a wordCloud', wordCloud);
-        }
-        if (typeof callbackFromGetId === 'function') {
-          console.log("Fetched ", wordCloud);
-          callbackFromGetId(wordCloud);
-        } else {
-          console.log("never gets to the callbackFromGetId");
-        }
-      });
+    getId: function(id) {
+
     },
 
     put: function(wordClouds) {
-      var wordCloudIndex = []
-      wordClouds.map(function(wordCloud) {
-        var indexable = {
-          title: wordCloud.title,
-          id: wordCloud.id || Date.now(),
-        }
-        wordCloudIndex.push(indexable);
-        //save this cloud's orthography
-        var id = indexable.id;
-        chrome.storage.sync.set({
-          id: JSON.stringify({
-            orthography: wordCloud.orthography
-          })
-        });
-      });
-      JSON.stringify(wordCloudIndex);
-      console.log('setting wordClouds');
-      //save the index
-      chrome.storage.sync.set({
-        'wordClouds-index': JSON.stringify(wordCloudIndex)
-      });
+
+    },
+    dbUrl: function() {
+      return 'https://localhost:6984/' + dbname;
     }
   };
 });

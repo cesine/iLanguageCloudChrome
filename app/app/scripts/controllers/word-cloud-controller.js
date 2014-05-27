@@ -1,4 +1,4 @@
-/*global WordCloudApp, angular */
+/*global WordCloudApp, angular, iLanguageCloud */
 'use strict';
 
 /**
@@ -57,18 +57,36 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     if (newWordCloud.length === 0) {
       return;
     }
-
-    wordClouds.push({
+    var cloudToSave = new iLanguageCloud({
       orthography: newWordCloud,
       archived: false,
+      height: 200,
       nonContentWordsArray: [],
       prefixesArray: [], // |სა-, სტა-,იმის,-ში/
       suffixesArray: [],
       punctuationArray: [],
       wordFrequencies: [],
-      lexicalExperience: {}
+      collection: "datums",
+      lexicalExperience: {},
+      url: wordCloudStorage.dbUrl()
     });
-    wordCloudStorage.put(wordClouds);
+
+    /* make the longer texts have more vertical space */
+    if (cloudToSave.orthography && cloudToSave.orthography.length > 300) {
+      cloudToSave.height = 400;
+    } else {
+      cloudToSave.height = 200;
+    }
+
+    /* Create a title if not present */
+    if (!cloudToSave.title && cloudToSave.orthography) {
+      var titleLength = cloudToSave.orthography.length > 31 ? 30 : cloudToSave.orthography.length - 1;
+      cloudToSave.title = cloudToSave.orthography.substring(0, titleLength) + '...';
+    }
+
+    wordClouds.push(cloudToSave);
+    cloudToSave.save();
+    // wordCloudStorage.put(wordClouds);
 
     $scope.newWordCloud = '';
     $scope.remainingCount++;
@@ -87,8 +105,8 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     if (!wordCloud.orthography) {
       $scope.removeWordCloud(wordCloud);
     }
-
-    wordCloudStorage.put(wordClouds);
+    wordCloud.save();
+    // wordCloudStorage.put(wordClouds);
   };
 
   $scope.revertEditing = function(wordCloud) {
