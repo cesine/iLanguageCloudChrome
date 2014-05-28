@@ -21,18 +21,21 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     }
   };
 
-  // var deepExtend = function(destination, source) {
-  //   for (var property in source) {
-  //     if (source[property] && source[property].constructor &&
-  //      source[property].constructor === Object) {
-  //       destination[property] = destination[property] || {};
-  //       arguments.callee(destination[property], source[property]);
-  //     } else {
-  //       destination[property] = source[property];
-  //     }
-  //   }
-  //   return destination;
-  // };
+  /* http://stackoverflow.com/questions/15310935/angularjs-extend-recursive */
+  $scope.extendDeep = function extendDeep(dst) {
+    angular.forEach(arguments, function(obj) {
+      if (obj !== dst) {
+        angular.forEach(obj, function(value, key) {
+          if (dst[key] && dst[key].constructor && dst[key].constructor === Object) {
+            extendDeep(dst[key], value);
+          } else {
+            dst[key] = value;
+          }
+        });
+      }
+    });
+    return dst;
+  };
 
   wordCloudStorage.get(function(wordClouds) {
     console.log('Got some wordClouds', wordClouds);
@@ -108,8 +111,7 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
   $scope.editWordCloud = function(wordCloud) {
     $scope.editedWordCloud = wordCloud;
     // Clone the original wordCloud to restore it on demand.
-    $scope.originalWordCloud = angular.extend({}, wordCloud);
-    // $scope.originalWordCloud.save = wordCloud.save;
+    $scope.originalWordCloud = $scope.extendDeep({}, wordCloud);
   };
 
   $scope.doneEditing = function(wordCloud) {
@@ -118,13 +120,9 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
 
     if (!wordCloud.orthography) {
       $scope.removeWordCloud(wordCloud);
+    } else {
+      wordCloud.save();
     }
-    // wordCloud = new iLanguageCloud(wordCloud); //it has lost all its methods due to angular extend above
-    if (!wordCloud.save) {
-      wordCloud.save = sparePartsCloud.save;
-      wordCloud.toJSON = sparePartsCloud.toJSON;
-    }
-    wordCloud.save();
   };
 
   $scope.revertEditing = function(wordCloud) {
@@ -136,22 +134,11 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     wordCloud.trashed = 'deleted';
     $scope.remainingCount -= wordCloud.archived ? 0 : 1;
     wordClouds.splice(wordClouds.indexOf(wordCloud), 1);
-    // wordCloud = new iLanguageCloud(wordCloud);
-    if (!wordCloud.save) {
-      wordCloud.save = sparePartsCloud.save;
-      wordCloud.toJSON = sparePartsCloud.toJSON;
-    }
     wordCloud.save();
   };
 
   $scope.wordCloudArchived = function(wordCloud) {
     $scope.remainingCount += wordCloud.archived ? -1 : 1;
-    // wordCloud = new iLanguageCloud(wordCloud);
-    // if(!wordCloud.save){
-    if (!wordCloud.save) {
-      wordCloud.save = sparePartsCloud.save;
-      wordCloud.toJSON = sparePartsCloud.toJSON;
-    }
     wordCloud.save();
   };
 
@@ -159,11 +146,6 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     $scope.wordClouds = wordClouds = wordClouds.filter(function(wordCloud) {
       if (wordCloud.archived) {
         wordCloud.trashed = 'deleted';
-        // wordCloud = new iLanguageCloud(wordCloud);
-        if (!wordCloud.save) {
-          wordCloud.save = sparePartsCloud.save;
-          wordCloud.toJSON = sparePartsCloud.toJSON;
-        }
         wordCloud.save();
       }
       return !wordCloud.archived;
@@ -173,11 +155,6 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
   $scope.markAll = function(archived) {
     wordClouds.forEach(function(wordCloud) {
       wordCloud.archived = !archived;
-      // wordCloud = new iLanguageCloud(wordCloud);
-      if (!wordCloud.save) {
-        wordCloud.save = sparePartsCloud.save;
-        wordCloud.toJSON = sparePartsCloud.toJSON;
-      }
       wordCloud.save();
     });
     $scope.remainingCount = archived ? wordClouds.length : 0;

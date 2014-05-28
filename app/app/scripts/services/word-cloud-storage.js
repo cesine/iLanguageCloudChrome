@@ -49,6 +49,9 @@ WordCloudApp.factory('wordCloudStorage', function() {
         console.log('fetching clouds for ', db.toJSON());
         db.fetchAllDocuments().then(function(someclouds) {
           console.log(someclouds);
+          for (var cloudIndex = 0; cloudIndex < someclouds.length; cloudIndex++) {
+            someclouds[cloudIndex] = new iLanguageCloud(someclouds[cloudIndex]);
+          }
           if (typeof callbackForGettingClouds === 'function') {
             callbackForGettingClouds(someclouds);
           }
