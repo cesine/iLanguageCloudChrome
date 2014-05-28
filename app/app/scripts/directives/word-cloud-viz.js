@@ -18,29 +18,17 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
         if (newValue === oldValue) {
           return;
         }
-        $scope.wordCloud.orthography = newValue;
+        // $scope.wordCloud.orthography = newValue;
         $scope.wordCloud.runSegmenter();
-        if ($scope.wordCloud.segmentedText !== $scope.wordCloud.segmentedText) {
-          $scope.wordCloud.segmentedText = $scope.wordCloud.segmentedText;
-        }
+        $scope.$apply();
       });
       $scope.$watch('wordCloud.morphemesSpaceSeparated', function(newValue, oldValue) {
         if (newValue === oldValue) {
           return;
         }
-        $scope.wordCloud.prefixesArray = [];
-        $scope.wordCloud.suffixesArray = [];
-        newValue.split(' ').map(function(morpheme) {
-          if (morpheme.indexOf('-') === 0) {
-            $scope.wordCloud.prefixesArray.push(morpheme);
-          } else {
-            $scope.wordCloud.suffixesArray.push(morpheme);
-          }
-        });
+        $scope.wordCloud.morphemesArray = newValue;
         $scope.wordCloud.runSegmenter();
-        if ($scope.wordCloud.segmentedText !== $scope.wordCloud.segmentedText) {
-          $scope.wordCloud.segmentedText = $scope.wordCloud.segmentedText;
-        }
+        $scope.$apply();
       });
 
       /* when to re-generate the lexical experience */
@@ -48,23 +36,24 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
         if (newValue === oldValue) {
           return;
         }
-        $scope.wordCloud.segmentedText = newValue;
         $scope.wordCloud.runWordFrequencyGenerator();
         var newLexicalExperience = JSON.stringify($scope.wordCloud.lexicalExperience);
         if (newLexicalExperience !== $scope.wordCloud.lexicalExperienceJSON) {
           $scope.wordCloud.lexicalExperienceJSON = newLexicalExperience;
         }
+        $scope.$apply();
       });
       $scope.$watch('wordCloud.punctuationSpaceSeparated', function(newValue, oldValue) {
         if (newValue === oldValue) {
           return;
         }
-        $scope.wordCloud.punctuationArray = newValue.split(' ');
+        $scope.wordCloud.punctuationArray = newValue.split(/ +/);
         $scope.wordCloud.runWordFrequencyGenerator();
         var newLexicalExperience = JSON.stringify($scope.wordCloud.lexicalExperience);
         if (newLexicalExperience !== $scope.wordCloud.lexicalExperienceJSON) {
           $scope.wordCloud.lexicalExperienceJSON = newLexicalExperience;
         }
+        $scope.$apply();
       });
 
       /* when to re-generate the frequency list */
@@ -72,7 +61,7 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
         if (newValue === oldValue) {
           return;
         }
-        $scope.wordCloud.nonContentWordsArray = newValue.split(' ');
+        $scope.wordCloud.nonContentWordsArray = newValue;
         var previousWordFrequencyLength = $scope.wordCloud.wordFrequencies.length;
         $scope.wordCloud.runStemmer();
         /* very conservative update of the word frequency list, to reduce re-drawing... */
@@ -81,6 +70,7 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
             return word.orthography + ' ' + word.count;
           }).join('\n');
         }
+        $scope.$apply();
       });
       $scope.$watch('wordCloud.lexicalExperienceJSON', function(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -99,6 +89,7 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
             return word.orthography + ' ' + word.count;
           }).join('\n');
         }
+        $scope.$apply();
       });
 
       /* when to re-generate the word $scope.wordCloud visualization */
@@ -109,11 +100,14 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
         $scope.wordCloud.render();
       });
 
+      //trigger the chain or processing
+      $scope.wordCloud.morphemesSpaceSeparated ='სა-';
     },
-    link: function postLink() {
+    link: function postLink(scope) {
       // element.orthography('this is the wordCloudViz directive');
       // cloud.orthography = scope.wordCloud.orthography;
       // cloud.render();
+      // scope.wordCloud.render();
     }
   };
 });

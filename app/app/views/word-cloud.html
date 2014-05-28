@@ -7,6 +7,7 @@
 <form ng-submit="doneEditing(wordCloud)">
   <textarea class="edit" ng-trim="false" ng-model="wordCloud.orthography" word-cloud-escape="revertEditing(wordCloud)" word-cloud-focus="wordCloud == editedWordCloud" ng-dblclick="doneEditing(wordCloud)" placeholder="Paste either your raw text here, or paste your word frequencies below..."> </textarea>
   <textarea class="edit" ng-model="wordCloud.nonContentWordsSpaceSeparated" placeholder="Optional stopwords which you want to remove..."></textarea>
+  <textarea class="edit" ng-model="wordCloud.filteredText" placeholder="This is what the text looks like with only meaningful words..."></textarea>
   <textarea class="edit" ng-model="wordCloud.morphemesSpaceSeparated" placeholder="Optional suffixes and prefixes which you want to remove..."></textarea>
   <textarea class="edit" ng-model="wordCloud.punctuationSpaceSeparated" placeholder="Optional puctuation which you want to remove..."></textarea>
   <textarea class="edit" ng-model="wordCloud.wordFrequenciesLineBreakSeparated" placeholder="Word frequency list which you use instead of a text"></textarea>
