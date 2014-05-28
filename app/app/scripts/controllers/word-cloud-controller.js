@@ -6,7 +6,7 @@
  * - retrieves and persists the model via the wordCloudStorage service
  * - exposes the model to the template and provides event handlers
  */
-WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $location, $filter, wordCloudStorage) {
+WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $location, $filter, wordCloudStorage, $rootScope) {
   var wordClouds = $scope.wordClouds = [];
   var sparePartsCloud = new iLanguageCloud();
 
@@ -21,22 +21,6 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     }
   };
 
-  /* http://stackoverflow.com/questions/15310935/angularjs-extend-recursive */
-  $scope.extendDeep = function extendDeep(dst) {
-    angular.forEach(arguments, function(obj) {
-      if (obj !== dst) {
-        angular.forEach(obj, function(value, key) {
-          if (dst[key] && dst[key].constructor && dst[key].constructor === Object) {
-            extendDeep(dst[key], value);
-          } else {
-            dst[key] = value;
-          }
-        });
-      }
-    });
-    return dst;
-  };
-
   wordCloudStorage.get(function(wordClouds) {
     console.log('Got some wordClouds', wordClouds);
     $scope.$apply(function() {
@@ -46,7 +30,6 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
 
   $scope.newWordCloud = '';
   $scope.remainingCount = 0;
-  $scope.editedWordCloud = null;
 
   if ($location.path() === '') {
     $location.path('/');
@@ -101,45 +84,28 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
       cloudToSave.title = cloudToSave.orthography.substring(0, titleLength) + '...';
     }
 
-    wordClouds.push(cloudToSave);
+    wordClouds.unshift(cloudToSave);
     cloudToSave.save();
 
     $scope.newWordCloud = '';
     $scope.remainingCount++;
   };
 
-  $scope.editWordCloud = function(wordCloud) {
+  $rootScope.editingCloudInList = function(wordCloud) {
     $scope.editedWordCloud = wordCloud;
-    // Clone the original wordCloud to restore it on demand.
-    $scope.originalWordCloud = $scope.extendDeep({}, wordCloud);
   };
 
-  $scope.doneEditing = function(wordCloud) {
-    $scope.editedWordCloud = null;
-    wordCloud.orthography = wordCloud.orthography.trim();
-
-    if (!wordCloud.orthography) {
-      $scope.removeWordCloud(wordCloud);
-    } else {
-      wordCloud.save();
-    }
-  };
-
-  $scope.revertEditing = function(wordCloud) {
-    wordClouds[wordClouds.indexOf(wordCloud)] = $scope.originalWordCloud;
-    $scope.doneEditing($scope.originalWordCloud);
-  };
-
-  $scope.removeWordCloud = function(wordCloud) {
-    wordCloud.trashed = 'deleted';
+  $rootScope.removeWordCloudFromList = function(wordCloud) {
     $scope.remainingCount -= wordCloud.archived ? 0 : 1;
     wordClouds.splice(wordClouds.indexOf(wordCloud), 1);
-    wordCloud.save();
   };
 
-  $scope.wordCloudArchived = function(wordCloud) {
+  $rootScope.wordCloudArchivedFromList = function(wordCloud) {
     $scope.remainingCount += wordCloud.archived ? -1 : 1;
-    wordCloud.save();
+  };
+
+  $rootScope.revertEditingFromList = function(wordCloud, original) {
+    wordClouds[wordClouds.indexOf(wordCloud)] = original;
   };
 
   $scope.clearArchivedWordClouds = function() {

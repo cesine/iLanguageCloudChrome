@@ -20,7 +20,7 @@
                 <input class="toggle-all" id="toggle-all" type="checkbox" ng-model="allChecked" ng-click="markAll(allChecked)">
                 <label for="toggle-all">Mark all as archive</label>
                 <ul class="word-cloud-list">
-                    <li data-word-cloud ng-repeat="wordCloud in wordClouds | filter:statusFilter track by $index" ng-class="{archived: wordCloud.archived, editing: wordCloud == editedWordCloud}">
+                    <li data-word-cloud ng-repeat="wordCloud in wordClouds | filter:statusFilter track by $index" model="wordCloud" ng-class="{archived: wordCloud.archived, editing: wordCloud == editedWordCloud}">
                     </li>
                 </ul>
             </section>
