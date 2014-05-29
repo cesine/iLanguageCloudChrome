@@ -1,9 +1,15 @@
-<div class="view">
-  <input class="toggle" type="checkbox" ng-model="wordCloud.archived" ng-change="wordCloudArchived(wordCloud)">
-  <label ng-dblclick="editWordCloud(wordCloud)">{{wordCloud.title}}</label>
-  <div data-word-cloud-viz class="word-cloud-viz"></div>
+<div class="view" ng-dblclick="editWordCloud(wordCloud)">
+  <input class="toggle" type="checkbox" ng-model="archived" ng-change="wordCloudArchived(wordCloud)">
+  <label>{{title}}</label>
+  <div data-word-cloud-viz class="word-cloud-viz" title={{nonContentWordsSpaceSeparated}}  {{morphemesSpaceSeparated}}></div>
   <button class="destroy" ng-click="removeWordCloud(wordCloud)"></button>
 </div>
 <form ng-submit="doneEditing(wordCloud)">
-  <textarea class="edit" ng-trim="false" ng-model="wordCloud.title" ng-blur="doneEditing(wordCloud)" word-cloud-escape="revertEditing(wordCloud)" word-cloud-focus="wordCloud == editedWordCloud"> </textarea>
+  <textarea class="edit" ng-trim="false" ng-model="orthography" word-cloud-escape="revertEditing(wordCloud)" word-cloud-focus="wordCloud == editedWordCloud" ng-blur="changeOrthography(orthography)" ng-dblclick="doneEditing(wordCloud)" placeholder="Paste either your raw text here, or paste your word frequencies below..."> </textarea>
+  <textarea class="edit" ng-model="nonContentWordsSpaceSeparated" ng-blur="changeNonContentWords(nonContentWordsSpaceSeparated)" placeholder="Optional stopwords which you want to remove..."></textarea>
+  <textarea class="edit" ng-model="filteredText" placeholder="This is what the text looks like with only meaningful words..."></textarea>
+  <textarea class="edit" ng-model="morphemesSpaceSeparated" ng-blur="changeMorphemes(morphemesSpaceSeparated)" placeholder="Optional suffixes and prefixes which you want to remove..."></textarea>
+  <textarea class="edit" ng-model="punctuationSpaceSeparated" ng-blur="changePunctuation(punctuationSpaceSeparated)" placeholder="Optional puctuation which you want to remove..."></textarea>
+  <textarea class="edit" ng-model="wordFrequenciesLineBreakSeparated" ng-blur="changeWordFrequencies(wordFrequenciesLineBreakSeparated)" placeholder="Word frequency list which you use instead of a text"></textarea>
+  <textarea class="edit" ng-model="lexicalExperienceJSON" ng-blur="changeLexicalExperience(lexicalExperienceJSON)" placeholder="How words will be collapsed and unified into a main word"></textarea>
 </form>

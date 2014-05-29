@@ -1,4 +1,4 @@
-/*global WordCloudApp, angular */
+/*global WordCloudApp, iLanguageCloud */
 'use strict';
 
 /**
@@ -6,7 +6,7 @@
  * - retrieves and persists the model via the wordCloudStorage service
  * - exposes the model to the template and provides event handlers
  */
-WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $location, $filter, wordCloudStorage) {
+WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $location, $filter, wordCloudStorage, $rootScope) {
   var wordClouds = $scope.wordClouds = [];
 
   // If there is saved data in storage, use it.
@@ -29,7 +29,6 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
 
   $scope.newWordCloud = '';
   $scope.remainingCount = 0;
-  $scope.editedWordCloud = null;
 
   if ($location.path() === '') {
     $location.path('/');
@@ -57,62 +56,73 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     if (newWordCloud.length === 0) {
       return;
     }
-
-    wordClouds.push({
-      title: newWordCloud,
-      archived: false
+    var cloudToSave = new iLanguageCloud({
+      orthography: newWordCloud,
+      archived: false,
+      height: 200,
+      nonContentWordsArray: [],
+      prefixesArray: [], // |სა-, სტა-,იმის,-ში/
+      suffixesArray: [],
+      punctuationArray: [],
+      wordFrequencies: [],
+      collection: 'datums',
+      lexicalExperience: {},
+      caseInsensitive: true,
+      url: wordCloudStorage.dbUrl()
     });
-    wordCloudStorage.put(wordClouds);
+
+    /* make the longer texts have more vertical space */
+    if (cloudToSave.orthography && cloudToSave.orthography.length > 300) {
+      cloudToSave.height = 400;
+    } else {
+      cloudToSave.height = 200;
+    }
+
+    /* Create a title if not present */
+    if (!cloudToSave.title && cloudToSave.orthography) {
+      var titleLength = cloudToSave.orthography.length > 31 ? 30 : cloudToSave.orthography.length - 1;
+      cloudToSave.title = cloudToSave.orthography.substring(0, titleLength) + '...';
+    }
+
+    wordClouds.unshift(cloudToSave);
+    cloudToSave.save();
 
     $scope.newWordCloud = '';
     $scope.remainingCount++;
   };
 
-  $scope.editWordCloud = function(wordCloud) {
+  $rootScope.editingCloudInList = function(wordCloud) {
     $scope.editedWordCloud = wordCloud;
-    // Clone the original wordCloud to restore it on demand.
-    $scope.originalWordCloud = angular.extend({}, wordCloud);
   };
 
-  $scope.doneEditing = function(wordCloud) {
-    $scope.editedWordCloud = null;
-    wordCloud.title = wordCloud.title.trim();
-
-    if (!wordCloud.title) {
-      $scope.removeWordCloud(wordCloud);
-    }
-
-    wordCloudStorage.put(wordClouds);
-  };
-
-  $scope.revertEditing = function(wordCloud) {
-    wordClouds[wordClouds.indexOf(wordCloud)] = $scope.originalWordCloud;
-    $scope.doneEditing($scope.originalWordCloud);
-  };
-
-  $scope.removeWordCloud = function(wordCloud) {
+  $rootScope.removeWordCloudFromList = function(wordCloud) {
     $scope.remainingCount -= wordCloud.archived ? 0 : 1;
     wordClouds.splice(wordClouds.indexOf(wordCloud), 1);
-    wordCloudStorage.put(wordClouds);
   };
 
-  $scope.wordCloudArchived = function(wordCloud) {
+  $rootScope.wordCloudArchivedFromList = function(wordCloud) {
     $scope.remainingCount += wordCloud.archived ? -1 : 1;
-    wordCloudStorage.put(wordClouds);
+  };
+
+  $rootScope.revertEditingFromList = function(wordCloud, original) {
+    wordClouds[wordClouds.indexOf(wordCloud)] = original;
   };
 
   $scope.clearArchivedWordClouds = function() {
-    $scope.wordClouds = wordClouds = wordClouds.filter(function(val) {
-      return !val.archived;
+    $scope.wordClouds = wordClouds = wordClouds.filter(function(wordCloud) {
+      if (wordCloud.archived) {
+        wordCloud.trashed = 'deleted';
+        wordCloud.save();
+      }
+      return !wordCloud.archived;
     });
-    wordCloudStorage.put(wordClouds);
   };
 
   $scope.markAll = function(archived) {
     wordClouds.forEach(function(wordCloud) {
       wordCloud.archived = !archived;
+      wordCloud.save();
     });
     $scope.remainingCount = archived ? wordClouds.length : 0;
-    wordCloudStorage.put(wordClouds);
   };
 });
