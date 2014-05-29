@@ -67,6 +67,7 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
       wordFrequencies: [],
       collection: 'datums',
       lexicalExperience: {},
+      caseInsensitive: true,
       url: wordCloudStorage.dbUrl()
     });
 

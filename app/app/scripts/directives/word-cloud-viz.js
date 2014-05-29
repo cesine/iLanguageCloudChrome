@@ -1,12 +1,15 @@
+/*global WordCloudApp */
 'use strict';
 
-angular.module('WordCloudApp').directive('wordCloudViz', function() {
+WordCloudApp.directive('wordCloudViz', function() {
 
   return {
-    template: '<div></div>',
+    template: '<div class="word-cloud-viz"></div>',
     restrict: 'A',
-    controller: function() {
+    // replace: true,
+    controller: function($scope, $element) {
       console.log('Setting up wordCloudViz controller with a word cloud from scope');
+      $scope.wordCloud.element = $element[0];
     },
     link: function postLink(scope, element) {
       scope.wordCloud.element = element[0];
@@ -14,6 +17,7 @@ angular.module('WordCloudApp').directive('wordCloudViz', function() {
       if (!scope.wordCloud.orthography || scope.wordCloud.orthography.length < 20) {
         return;
       }
+      scope.wordCloud.width = element[0].offsetWidth || 1000;
       scope.wordCloud.render();
     }
   };
