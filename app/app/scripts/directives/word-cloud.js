@@ -1,6 +1,7 @@
+/*global WordCloudApp */
 'use strict';
 
-angular.module('WordCloudApp').directive('wordCloud', function($rootScope) {
+WordCloudApp.directive('wordCloud', function($rootScope) {
   return {
     templateUrl: 'views/word-cloud.html',
     restrict: 'A',

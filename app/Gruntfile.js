@@ -153,6 +153,24 @@ module.exports = function(grunt) {
         }]
       }
     },
+
+    // ngtemplates: {
+    //   app: {
+    //     options : {
+    //       htmlmin: {
+    //         collapseWhitespace: true,
+    //         collapseBooleanAttributes: true,
+    //         removeCommentsFromCDATA: true,
+    //         removeOptionalTags: true
+    //       },
+    //       module: 'WordCloudApp',
+    //     },
+    //     cwd: 'app',
+    //     src: 'views/**.html',
+    //     dest: 'dist/scripts/templates.js'
+    //   }
+    // },
+
     htmlmin: {
       dist: {
         options: {
@@ -187,15 +205,18 @@ module.exports = function(grunt) {
     //         }
     //     }
     // },
-    // uglify: {
-    //     dist: {
-    //         files: {
-    //             '<%= yeoman.dist %>/scripts/scripts.js': [
-    //                 '<%= yeoman.dist %>/scripts/scripts.js'
-    //             ]
-    //         }
-    //     }
-    // },
+    uglify: {
+      options: {
+        mangle: false
+      },
+      dist: {
+        files: {
+          '<%= yeoman.dist %>/scripts/scripts.js': [
+            '<%= yeoman.dist %>/scripts/scripts.js'
+          ]
+        }
+      }
+    },
     // concat: {
     //     dist: {}
     // },
@@ -211,6 +232,7 @@ module.exports = function(grunt) {
           src: [
             '*.{ico,png,txt}',
             'images/{,*/}*.{webp,gif}',
+            'views/*.html',
             '_locales/{,*/}*.json',
             'styles/fonts/{,*/}*.*'
           ]
@@ -243,7 +265,7 @@ module.exports = function(grunt) {
     compress: {
       dist: {
         options: {
-          archive: 'package/app.zip'
+          archive: '../../Releases/ilanguage_chrome_app.zip'
         },
         files: [{
           expand: true,
@@ -290,6 +312,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', [
     'jshint',
+    // 'ngtemplates'
     'test',
     'build'
   ]);

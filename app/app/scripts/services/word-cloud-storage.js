@@ -5,36 +5,36 @@
  * Services that persists and retrieves to a server
  */
 WordCloudApp.factory('wordCloudStorage', function() {
-  // var USERNAME_STORAGE = 'wordClouds-username';
-  var username = 'anonymouswordclouduser1401218737791';
-  var dbname = 'anonymouswordclouduser1401218737791-firstcorpus';
+  var USERNAME_STORAGE = 'wordClouds-username';
+  var username = 'anonymouswordclouduser1401365327718';
+  var dbname = 'anonymouswordclouduser1401365327718-firstcorpus';
 
   var db;
   var getUserName = function(callbackForGettingUsername) {
 
-    // chrome.storage.sync.get(USERNAME_STORAGE, function(data) {
+    chrome.storage.sync.get(USERNAME_STORAGE, function(data) {
 
-    //   var username = [];
-    //   if (chrome.runtime.lastError || !data || !data[USERNAME_STORAGE]) {
-    //     console.log('got no username', data);
-    //     /* error */
-    //   } else {
-    //     username = data[USERNAME_STORAGE];
-    //     console.log('got some wordClouds', username);
+      var username = [];
+      if (chrome.runtime.lastError || !data || !data[USERNAME_STORAGE]) {
+        console.log('got no username', data);
+        /* error */
+      } else {
+        username = data[USERNAME_STORAGE];
+        console.log('got some wordClouds', username);
 
-    //   }
-    //   if (!username || username.length === 0) {
-    //     username = 'anonymouswordclouduser' + Date.now();
-    //     //Register user
-    //     chrome.storage.sync.set({
-    //       USERNAME_STORAGE: username
-    //     });
-    //   }
-    //   dbname = username + '-firstcorpus';
-    if (typeof callbackForGettingUsername === 'function') {
-      callbackForGettingUsername();
-    }
-    // });
+      }
+      if (!username || username.length === 0) {
+        username = 'anonymouswordclouduser' + Date.now();
+        //Register user
+        chrome.storage.sync.set({
+          USERNAME_STORAGE: username
+        });
+      }
+      dbname = username + '-firstcorpus';
+      if (typeof callbackForGettingUsername === 'function') {
+        callbackForGettingUsername();
+      }
+    });
   };
 
   return {
