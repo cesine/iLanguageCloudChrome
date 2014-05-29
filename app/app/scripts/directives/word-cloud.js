@@ -57,7 +57,7 @@ angular.module('WordCloudApp').directive('wordCloud', function($rootScope) {
         }
       };
 
-      $scope.revertEditing = function(wordCloud) {
+      $scope.revertEditing = function() {
         $scope.doneEditing($scope.originalWordCloud);
       };
 
@@ -72,7 +72,7 @@ angular.module('WordCloudApp').directive('wordCloud', function($rootScope) {
         wordCloud.save();
       };
 
-      return;
+      // return;
 
       /* don't make clouds of short texts */
       if (!$scope.wordCloud.orthography || $scope.wordCloud.orthography.length < 20) {
@@ -83,7 +83,7 @@ angular.module('WordCloudApp').directive('wordCloud', function($rootScope) {
         if (newValue === $scope.wordCloud.orthography) {
           return;
         }
-        console.log("changeOrthography");
+        console.log('changeOrthography');
         $scope.wordCloud.runSegmenter();
       };
 
@@ -91,7 +91,7 @@ angular.module('WordCloudApp').directive('wordCloud', function($rootScope) {
         if (newValue === $scope.wordCloud.nonContentWordsSpaceSeparated) {
           return;
         }
-        console.log("changeNonContentWords");
+        console.log('changeNonContentWords');
         $scope.wordCloud.nonContentWordsArray = newValue;
         var previousWordFrequencyLength = $scope.wordCloud.wordFrequencies.length;
         $scope.wordCloud.runStemmer();
@@ -108,7 +108,7 @@ angular.module('WordCloudApp').directive('wordCloud', function($rootScope) {
         if (newValue === $scope.wordCloud.morphemesSpaceSeparated) {
           return;
         }
-        console.log("changeMorphemes");
+        console.log('changeMorphemes');
         $scope.wordCloud.morphemesArray = newValue;
 
         $scope.wordCloud.runSegmenter();
@@ -118,7 +118,7 @@ angular.module('WordCloudApp').directive('wordCloud', function($rootScope) {
         if (newValue === $scope.wordCloud.punctuationSpaceSeparated) {
           return;
         }
-        console.log("changePunctuation");
+        console.log('changePunctuation');
         $scope.wordCloud.punctuationArray = newValue.split(/ +/);
 
         $scope.wordCloud.runWordFrequencyGenerator();
@@ -132,15 +132,15 @@ angular.module('WordCloudApp').directive('wordCloud', function($rootScope) {
         if (newValue === $scope.wordCloud.wordFrequenciesLineBreakSeparated) {
           return;
         }
-        console.log("changeWordFrequencies");
-        // $scope.wordCloud.render();
+        console.log('changeWordFrequencies');
+        $scope.wordCloud.render();
       };
 
       $scope.changeLexicalExperience = function(newValue) {
         if (newValue === $scope.wordCloud.lexicalExperienceJSON) {
           return;
         }
-        console.log("changeLexicalExperience");
+        console.log('changeLexicalExperience');
 
         try {
           $scope.wordCloud.lexicalExperience = JSON.parse(newValue);

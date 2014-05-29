@@ -1,4 +1,4 @@
-/*global WordCloudApp, angular, iLanguageCloud */
+/*global WordCloudApp, iLanguageCloud */
 'use strict';
 
 /**
@@ -8,7 +8,6 @@
  */
 WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $location, $filter, wordCloudStorage, $rootScope) {
   var wordClouds = $scope.wordClouds = [];
-  var sparePartsCloud = new iLanguageCloud();
 
   // If there is saved data in storage, use it.
   // https://developer.chrome.com/apps/app_codelab5_data

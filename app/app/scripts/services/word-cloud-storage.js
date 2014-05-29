@@ -1,4 +1,4 @@
-/*global WordCloudApp, iLanguageClouds */
+/*global WordCloudApp, iLanguageCloud, iLanguageClouds */
 'use strict';
 
 /**
