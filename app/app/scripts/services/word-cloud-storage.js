@@ -49,11 +49,12 @@ WordCloudApp.factory('wordCloudStorage', function() {
         console.log('fetching clouds for ', db.toJSON());
         db.fetchAllDocuments().then(function(someclouds) {
           console.log(someclouds);
+          var clouds = [];
           for (var cloudIndex = 0; cloudIndex < someclouds.length; cloudIndex++) {
-            someclouds[cloudIndex] = new iLanguageCloud(someclouds[cloudIndex]);
+            clouds.unshift(new iLanguageCloud(someclouds[cloudIndex]));
           }
           if (typeof callbackForGettingClouds === 'function') {
-            callbackForGettingClouds(someclouds);
+            callbackForGettingClouds(clouds);
           }
         }, function(reason) {
           console.log('No clouds...', reason);

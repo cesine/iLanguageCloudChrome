@@ -205,7 +205,7 @@ label[for='toggle-all'] {
 }
 
 .word-cloud-list li.editing .view {
-  display: none;
+  /*display: none;*/
 }
 
 .word-cloud-list li .toggle {

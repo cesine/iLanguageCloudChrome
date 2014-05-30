@@ -54,7 +54,9 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
           $rootScope.removeWordCloudFromList(wordCloud);
         } else {
           wordCloud.save();
-          wordCloud.render();
+          if (wordCloud.element) {
+            wordCloud.render();
+          }
         }
       };
 

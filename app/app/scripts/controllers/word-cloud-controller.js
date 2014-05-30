@@ -6,7 +6,7 @@
  * - retrieves and persists the model via the wordCloudStorage service
  * - exposes the model to the template and provides event handlers
  */
-WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $location, $filter, wordCloudStorage, $rootScope) {
+WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $location, $filter, wordCloudStorage, $rootScope, $timeout) {
   var wordClouds = $scope.wordClouds = [];
 
   // If there is saved data in storage, use it.
@@ -84,7 +84,12 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
       cloudToSave.title = cloudToSave.orthography.substring(0, titleLength) + '...';
     }
 
-    wordClouds.unshift(cloudToSave);
+    while (wordClouds.length > 0) {
+      wordClouds.pop();
+    }
+    $timeout(function() {
+      wordClouds.unshift(cloudToSave);
+    }, 500);
     cloudToSave.save();
 
     $scope.newWordCloud = '';
@@ -97,7 +102,22 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
 
   $rootScope.removeWordCloudFromList = function(wordCloud) {
     $scope.remainingCount -= wordCloud.archived ? 0 : 1;
-    wordClouds.splice(wordClouds.indexOf(wordCloud), 1);
+    var cloudHolder = [];
+    var aCloud;
+    while (wordClouds.length > 0) {
+      aCloud = wordClouds.pop();
+      if (aCloud !== wordCloud) {
+        aCloud.element = null;
+        cloudHolder.push(aCloud);
+      }
+    }
+    $timeout(function() {
+      while (cloudHolder.length > 0) {
+        aCloud = cloudHolder.pop();
+        wordClouds.push(aCloud);
+      }
+    }, 500);
+    // wordClouds.splice(wordClouds.indexOf(wordCloud), 1);
   };
 
   $rootScope.wordCloudArchivedFromList = function(wordCloud) {
