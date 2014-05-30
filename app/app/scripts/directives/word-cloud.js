@@ -66,8 +66,8 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
 
       $scope.removeWordCloud = function(wordCloud) {
         wordCloud.trashed = 'deleted';
-        $rootScope.removeWordCloudFromList(wordCloud);
         wordCloud.save();
+        $rootScope.removeWordCloudFromList(wordCloud);
       };
 
       $scope.wordCloudArchived = function(wordCloud) {
