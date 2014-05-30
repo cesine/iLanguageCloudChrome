@@ -1,7 +1,7 @@
 /*global WordCloudApp */
 'use strict';
 
-WordCloudApp.directive('wordCloudViz', function() {
+WordCloudApp.directive('wordCloudViz', function($timeout) {
 
   return {
     template: '<div class="word-cloud-viz"></div>',
@@ -17,8 +17,11 @@ WordCloudApp.directive('wordCloudViz', function() {
       if (!scope.wordCloud.orthography || scope.wordCloud.orthography.length < 20) {
         return;
       }
-      scope.wordCloud.width = element[0].offsetWidth || 1000;
-      scope.wordCloud.render();
+      $timeout(function() {
+        console.log(element);
+        scope.wordCloud.width = element[0].offsetWidth || 1000;
+        scope.wordCloud.render();
+      }, 1000);
     }
   };
 });
