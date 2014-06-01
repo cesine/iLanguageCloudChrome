@@ -70,7 +70,8 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
       collection: 'datums',
       lexicalExperience: {},
       // caseInsensitive: true,
-      url: wordCloudStorage.dbUrl()
+      url: wordCloudStorage.dbUrl(),
+      enteredByUser: angular.extend({}, navigator)
     });
 
     /* make the longer texts have more vertical space */
