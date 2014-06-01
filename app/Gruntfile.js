@@ -265,7 +265,7 @@ module.exports = function(grunt) {
     compress: {
       dist: {
         options: {
-          archive: '../../Releases/ilanguage_chrome_app.zip'
+          archive: '../../Releases/ilanguage_cloud_chrome_app.zip'
         },
         files: [{
           expand: true,
