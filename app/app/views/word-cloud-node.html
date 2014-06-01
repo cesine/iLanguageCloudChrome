@@ -1,63 +1,80 @@
-<li title="Example: pa akinaywan punqota" style="opacity: 0.81;">
-  <input type="text" class="headword confidence:0.81 morphemes:aki gloss:door" title="Word">
-  <textarea  class="discussion confidence:0.81 morphemes:aki gloss:door" hidden title="Discussion, notes etc">
-  </textarea>
+<div class="word-cloud-node-edit">
+  <button ng-click="saveWordNodeChanges()">Done editing...</button>
   <dl>
     <dt>
       <span class="fieldlabel">
-        Remove this word from the cloud
+        Show as:
       </span>
     </dt>
     <dd>
-      <input type="checkbox" class="fieldvalue" title="Hide this word">
+      <input ng-model="wordNode.orthography" type="text" class="headword confidence:0.81" title="Word">
+    </dd>
+
+    <dt>
+      <span class="fieldlabel">
+        Boost word count:
+      </span>
+    </dt>
+    <dd>
+      <input  ng-model="wordNode.count" type="text" class="fieldvalue" title="count">
+    </dd>
+    <dt hidden>
+      <span class="fieldlabel">
+        Font Weight:
+      </span>
+    </dt>
+    <dd hidden>
+      <input  ng-model="wordNode.weight" type="text" class="fieldvalue" title="Font weight">
     </dd>
     <dt>
       <span class="fieldlabel">
-        Boost word count
+        Alternates:
       </span>
     </dt>
     <dd>
-      <input type="text" class="fieldvalue" title="count">
+      <input  ng-model="wordNode.alternates" type="text" class="fieldvalue" title="Comma separated alternate forms which should be combined into this one">
     </dd>
     <dt>
       <span class="fieldlabel">
-        Font Weight
+        Morphemes:
       </span>
     </dt>
     <dd>
-      <input type="text" class="fieldvalue" title="Font weight">
+      <input  ng-model="wordNode.morphemes" type="text" class="fieldvalue" title="Morph-eme-s">
     </dd>
     <dt>
       <span class="fieldlabel">
-        Alternates
+        Categories:
       </span>
     </dt>
     <dd>
-      <input type="text" class="fieldvalue" title="Alternate forms">
-    </dd>
-    <dt>
-      <span class="fieldlabel">
-        Morphemes
-      </span>
-    </dt>
-    <dd>
-      <input type="text" class="fieldvalue" title="Morph-eme-s">
-    </dd>
-    <dt>
-      <span class="fieldlabel">
-        Categories
-      </span>
-    </dt>
-    <dd>
-      <input type="text" class="fieldvalue" title="Comma separated categories">
+      <input  ng-model="wordNode.categories" type="text" class="fieldvalue" title="Comma separated categories">
     </dd>
     <dt>
       <span class="fieldlabel gloss door">
-        Gloss
+        Gloss:
       </span>
     </dt>
     <dd>
-      <input type="text" class="fieldvalue gloss door" title="Gloss">
+      <input  ng-model="wordNode.gloss" type="text" class="fieldvalue gloss door" title="Gloss">
+    </dd>
+    <dt>
+      <span class="fieldlabel">
+        Remove:
+      </span>
+    </dt>
+    <dd>
+      <input  ng-model="wordNode.removeThisWord" type="checkbox" class="fieldvalue" title="Hide this word from this cloud">
+    </dd>
+    <dt>
+      <span class="fieldlabel">
+        Never show:
+      </span>
+    </dt>
+    <dd>
+      <input  ng-model="wordNode.neverShowThisWord" type="checkbox" class="fieldvalue" title="Never show this word">
     </dd>
   </dl>
-</li>
+  <textarea  class="discussion" hidden title="Discussion, notes etc">
+  </textarea>
+</div>

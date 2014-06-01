@@ -4,15 +4,26 @@
 WordCloudApp.directive('wordCloudViz', function($timeout) {
 
   return {
-    template: '<div class="word-cloud-viz"></div>',
+    template: '<div class="word-cloud-viz"></div><div data-word-cloud-node ng-show="wordNodeShow"></div>',
     restrict: 'A',
-    scope: {
-      wordCloud: '=model'
-    },
+    // scope: {
+    //   wordCloud: '=model'
+    // },
     // replace: true,
     controller: function($scope, $element) {
       console.log('Setting up wordCloudViz controller with a word cloud from scope');
       $scope.wordCloud.element = $element[0];
+
+      $scope.onWordClick = function(wordNode) {
+        wordNode = $scope.initializeWordNode(wordNode);
+        $scope.wordNodeShow = true;
+        if (!$scope.$$phase) {
+          $scope.$apply();
+        }
+        return wordNode;
+      };
+      $scope.wordCloud.onWordClick = $scope.onWordClick;
+
     },
     link: function postLink(scope, element) {
       scope.wordCloud.element = element[0];
@@ -21,34 +32,6 @@ WordCloudApp.directive('wordCloudViz', function($timeout) {
         return;
       }
 
-      var tooltip;
-      scope.onWordClick = function(wordNode) {
-        console.log(wordNode);
-        // tooltip = d3.select("body")
-        //   .append("div")
-        //   .style("position", "absolute")
-        //   .style("z-index", "10")
-        //   .style("visibility", "visible")
-        //   .style("color", "#fff")
-        //   .text(wordNode.orthography);
-
-        // tooltip
-        //   .style("visibility", "visible")
-        //   .html("<div class='node_details_tooltip lexicon'>" + findNode + "</div>");
-      };
-      scope.wordCloud.onWordClick = scope.onWordClick;
-
-
-      scope.onWordMouseover = function(wordNode){
-        // tooltip = d3.select("body")
-        //   .append("div")
-        //   .style("position", "absolute")
-        //   .style("z-index", "10")
-        //   .style("visibility", "visible")
-        //   .style("color", "#fff")
-        //   .text(wordNode.orthography);
-      };
-      scope.wordCloud.onWordMouseover = scope.onWordMouseover;
 
       var waitime = Math.min(scope.wordCloud.orthography.length / 100, 1000);
       console.log('Waiting' + waitime);

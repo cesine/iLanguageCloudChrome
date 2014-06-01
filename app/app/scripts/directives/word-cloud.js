@@ -20,6 +20,7 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
       // $scope.lexicalExperienceJSON = $scope.wordCloud.lexicalExperienceJSON;
 
       $scope.editedWordCloud = null;
+      $scope.wordNodeShow = false;
 
       /* http://stackoverflow.com/questions/15310935/angularjs-extend-recursive */
       $scope.extendDeep = function extendDeep(dst) {
@@ -75,18 +76,21 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
         wordCloud.save();
       };
 
-      // return;
 
       /* don't make clouds of short texts */
       if (!$scope.wordCloud.orthography || $scope.wordCloud.orthography.length < 20) {
         return;
       }
-      $scope.wordCloud.element = $element[0];
 
+      /*
+      prepare the watchers and connect the wordCloud up to the scope
+      */
+      $scope.wordCloud.element = $element[0];
 
       $scope.refreshWhatsInScope = function(newValue) {
         $scope.orthography = newValue.orthography;
         $scope.filteredText = newValue.filteredText;
+        $scope.morphemes = newValue.morphemes;
         $scope.nonContentWordsSpaceSeparated = $scope.wordCloud.nonContentWordsSpaceSeparated = newValue.nonContentWordsArray.join(' ');
         $scope.morphemesSpaceSeparated = ($scope.wordCloud.morphemesSpaceSeparated = newValue.prefixesArray.join(' ') + ' ' + newValue.suffixesArray.join(' ')).trim();
         $scope.punctuationSpaceSeparated = $scope.wordCloud.punctuationSpaceSeparated = newValue.punctuationArray.join(' ');
@@ -96,8 +100,7 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
         $scope.lexicalExperienceJSON = JSON.stringify(newValue.lexicalExperience);
 
       };
-
-      $scope.refreshWhatsInScope($scope.wordCloud.runStemmer());
+      $scope.refreshWhatsInScope($scope.wordCloud.runStemmer().runSegmenter());
 
 
       $scope.$watch('wordCloud', function(newValue, oldValue) {
@@ -108,8 +111,6 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
         // }
       });
 
-
-
       $scope.changeOrthography = function(newValue) {
         if (newValue === $scope.wordCloud.orthography) {
           return;
@@ -117,16 +118,16 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
         console.log('changeOrthography');
         $scope.orthography = $scope.wordCloud.orthography = newValue;
         $scope.wordCloud.runSegmenter();
-        // $scope.changeSegmentedText($scope.wordCloud.segmentedText);
+        // $scope.changeMorphemes($scope.wordCloud.morphemes);
       };
 
-      $scope.changeSegmentedText = function(newValue) {
-        if (newValue === $scope.wordCloud.segmentedText) {
+      $scope.changeMorphemes = function(newValue) {
+        if (newValue === $scope.wordCloud.morphemes) {
           return;
         }
-        $scope.segmentedText = $scope.wordCloud.segmentedText = newValue;
-        console.log('changeSegmentedText');
-        $scope.wordCloud.runWordFrequencyGenerator();
+        $scope.morphemes = $scope.wordCloud.morphemes = newValue;
+        console.log('changeMorphemes');
+        // $scope.wordCloud.runWordFrequencyGenerator();
         // $scope.changeNonContentWords($scope.wordCloud.nonContentWordsArray);
       };
 
@@ -163,7 +164,7 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
         }
       };
 
-      $scope.changeMorphemes = function(newValue) {
+      $scope.changeMorphemesSpaceSeparated = function(newValue) {
         if (newValue === $scope.wordCloud.morphemesSpaceSeparated) {
           return;
         }
@@ -239,7 +240,7 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
       };
 
       //
-      //   if (newValue.segmentedText !== $scope.wordCloud.segmentedText) {
+      //   if (newValue.morphemes !== $scope.wordCloud.morphemes) {
       //     $scope.wordCloud.runWordFrequencyGenerator();
       //     var newLexicalExperience = JSON.stringify($scope.wordCloud.lexicalExperience);
       //     if (newLexicalExperience !== $scope.wordCloud.lexicalExperienceJSON) {

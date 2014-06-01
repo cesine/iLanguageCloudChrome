@@ -64,6 +64,8 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
       prefixesArray: [], // |სა-, სტა-,იმის,-ში/
       suffixesArray: [],
       punctuationArray: [],
+      wordDelimitersArray: [],
+      fineWordInternallyButNotExternallyArray: [],
       wordFrequencies: [],
       collection: 'datums',
       lexicalExperience: {},

@@ -45,7 +45,7 @@ input[type="checkbox"] {
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
-        0 25px 50px 0 rgba(0, 0, 0, 0.15);
+  0 25px 50px 0 rgba(0, 0, 0, 0.15);
 }
 
 .word-cloud-app:before {
@@ -279,7 +279,7 @@ label[for='toggle-all'] {
 
 .word-cloud-list li .destroy:hover {
   text-shadow: 0 0 1px #000,
-         0 0 10px rgba(199, 107, 107, 0.8);
+  0 0 10px rgba(199, 107, 107, 0.8);
   -webkit-transform: scale(1.3);
   -ms-transform: scale(1.3);
   transform: scale(1.3);
@@ -322,10 +322,10 @@ label[for='toggle-all'] {
   height: 50px;
   z-index: -1;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3),
-        0 6px 0 -3px rgba(255, 255, 255, 0.8),
-        0 7px 1px -3px rgba(0, 0, 0, 0.3),
-        0 43px 0 -6px rgba(255, 255, 255, 0.8),
-        0 44px 2px -6px rgba(0, 0, 0, 0.2);
+  0 6px 0 -3px rgba(255, 255, 255, 0.8),
+  0 7px 1px -3px rgba(0, 0, 0, 0.3),
+  0 43px 0 -6px rgba(255, 255, 255, 0.8),
+  0 44px 2px -6px rgba(0, 0, 0, 0.2);
 }
 
 .word-cloud-count {
@@ -385,179 +385,257 @@ label[for='toggle-all'] {
   color: inherit;
 }
 
+
+
+.word-cloud-node-edit {
+  padding: 0.5em;
+  margin: 0.5em;
+  width: 20em;
+  background-color: #fff;
+  opacity: 0.8;
+  border:2px solid black !important;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  /* make scrollable and same size */
+  height: 10em !important;
+  overflow: auto !important;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.node_details_tooltip {
+  padding: 0.5em;
+  margin: 0.5em;
+  border:2px solid black !important;
+  border-radius: 10px;
+  width: 20em;
+  background-color: #eaeaea;
+  opacity: 0.8;
+}
+
+.word-cloud-node-editJSON{
+  width: 100%;
+  resize: auto !important;
+  height: 20em;
+}
+
+.word-cloud-node-edit .discussion {
+ font-style: italic;
+ margin-right: 0.2em;
+}
+
+.word-cloud-node-edit .utteranceContext {
+ font-style: italic;
+}
+
+.word-cloud-node-edit .headword {
+  font-weight: bold;
+  padding-right: 0.2em;
+}
+
+.word-cloud-node-edit dl {
+ width: 100%;
+ overflow: hidden;
+}
+
+/*
+dd:nth-of-type(odd) {   background-color: #333}
+dl:nth-of-type(odd) {  background-color: #ccc }​*/
+
+
+.word-cloud-node-edit dt span{
+  padding: 0;
+  margin: 0;
+  float:left;
+  width:40%;
+  /*color: #ccc;*/
+}
+
+.word-cloud-node-edit dd span{
+  padding: 0;
+  margin: 0;
+  float:left;
+  width:55%;
+}
+
+
 /*
   Hack to remove background from Mobile Safari.
   Can't use it globally since it destroys checkboxes in Firefox and Opera
-*/
+  */
 
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  .toggle-all,
-  .word-cloud-list li .toggle {
-    background: none;
+  @media screen and (-webkit-min-device-pixel-ratio:0) {
+    .toggle-all,
+    .word-cloud-list li .toggle {
+      background: none;
+    }
+
+    .word-cloud-list li .toggle {
+      height: 40px;
+    }
+
+    .toggle-all {
+      top: -56px;
+      left: -15px;
+      width: 65px;
+      height: 41px;
+      -webkit-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      transform: rotate(90deg);
+      -webkit-appearance: none;
+      appearance: none;
+    }
   }
 
-  .word-cloud-list li .toggle {
-    height: 40px;
+  .hidden {
+    display: none;
   }
 
-  .toggle-all {
-    top: -56px;
-    left: -15px;
-    width: 65px;
-    height: 41px;
-    -webkit-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg);
-    -webkit-appearance: none;
-    appearance: none;
+  hr {
+    margin: 20px 0;
+    border: 0;
+    border-top: 1px dashed #C5C5C5;
+    border-bottom: 1px dashed #F7F7F7;
   }
-}
 
-.hidden {
-  display: none;
-}
+  .learn a {
+    font-weight: normal;
+    text-decoration: none;
+    color: #b83f45;
+  }
 
-hr {
-  margin: 20px 0;
-  border: 0;
-  border-top: 1px dashed #C5C5C5;
-  border-bottom: 1px dashed #F7F7F7;
-}
+  .learn a:hover {
+    text-decoration: underline;
+    color: #787e7e;
+  }
 
-.learn a {
-  font-weight: normal;
-  text-decoration: none;
-  color: #b83f45;
-}
+  .learn h3,
+  .learn h4,
+  .learn h5 {
+    margin: 10px 0;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #000;
+  }
 
-.learn a:hover {
-  text-decoration: underline;
-  color: #787e7e;
-}
+  .learn h3 {
+    font-size: 24px;
+  }
 
-.learn h3,
-.learn h4,
-.learn h5 {
-  margin: 10px 0;
-  font-weight: 500;
-  line-height: 1.2;
-  color: #000;
-}
+  .learn h4 {
+    font-size: 18px;
+  }
 
-.learn h3 {
-  font-size: 24px;
-}
+  .learn h5 {
+    margin-bottom: 0;
+    font-size: 14px;
+  }
 
-.learn h4 {
-  font-size: 18px;
-}
+  .learn ul {
+    padding: 0;
+    margin: 0 0 30px 25px;
+  }
 
-.learn h5 {
-  margin-bottom: 0;
-  font-size: 14px;
-}
+  .learn li {
+    line-height: 20px;
+  }
 
-.learn ul {
-  padding: 0;
-  margin: 0 0 30px 25px;
-}
+  .learn p {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.3;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 
-.learn li {
-  line-height: 20px;
-}
+  .quote {
+    border: none;
+    margin: 20px 0 60px 0;
+  }
 
-.learn p {
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 1.3;
-  margin-top: 0;
-  margin-bottom: 0;
-}
+  .quote p {
+    font-style: italic;
+  }
 
-.quote {
-  border: none;
-  margin: 20px 0 60px 0;
-}
+  .quote p:before {
+    content: '“';
+    font-size: 50px;
+    opacity: .15;
+    position: absolute;
+    top: -20px;
+    left: 3px;
+  }
 
-.quote p {
-  font-style: italic;
-}
+  .quote p:after {
+    content: '”';
+    font-size: 50px;
+    opacity: .15;
+    position: absolute;
+    bottom: -42px;
+    right: 3px;
+  }
 
-.quote p:before {
-  content: '“';
-  font-size: 50px;
-  opacity: .15;
-  position: absolute;
-  top: -20px;
-  left: 3px;
-}
+  .quote footer {
+    position: absolute;
+    bottom: -40px;
+    right: 0;
+  }
 
-.quote p:after {
-  content: '”';
-  font-size: 50px;
-  opacity: .15;
-  position: absolute;
-  bottom: -42px;
-  right: 3px;
-}
+  .quote footer img {
+    border-radius: 3px;
+  }
 
-.quote footer {
-  position: absolute;
-  bottom: -40px;
-  right: 0;
-}
+  .quote footer a {
+    margin-left: 5px;
+    vertical-align: middle;
+  }
 
-.quote footer img {
-  border-radius: 3px;
-}
+  .speech-bubble {
+    position: relative;
+    padding: 10px;
+    background: rgba(0, 0, 0, .04);
+    border-radius: 5px;
+  }
 
-.quote footer a {
-  margin-left: 5px;
-  vertical-align: middle;
-}
-
-.speech-bubble {
-  position: relative;
-  padding: 10px;
-  background: rgba(0, 0, 0, .04);
-  border-radius: 5px;
-}
-
-.speech-bubble:after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  right: 30px;
-  border: 13px solid transparent;
-  border-top-color: rgba(0, 0, 0, .04);
-}
-
-.learn-bar > .learn {
-  position: absolute;
-  width: 272px;
-  top: 8px;
-  left: -300px;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, .6);
-  -webkit-transition-property: left;
-  transition-property: left;
-  -webkit-transition-duration: 500ms;
-  transition-duration: 500ms;
-}
-
-@media (min-width: 899px) {
-  .learn-bar {
-    width: auto;
-    margin: 0 0 0 300px;
+  .speech-bubble:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 30px;
+    border: 13px solid transparent;
+    border-top-color: rgba(0, 0, 0, .04);
   }
 
   .learn-bar > .learn {
-    left: 8px;
+    position: absolute;
+    width: 272px;
+    top: 8px;
+    left: -300px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, .6);
+    -webkit-transition-property: left;
+    transition-property: left;
+    -webkit-transition-duration: 500ms;
+    transition-duration: 500ms;
   }
 
-  .learn-bar .word-cloud-app {
-    width: 550px;
-    margin: 130px auto 40px auto;
+
+  @media (min-width: 899px) {
+    .learn-bar {
+      width: auto;
+      margin: 0 0 0 300px;
+    }
+
+    .learn-bar > .learn {
+      left: 8px;
+    }
+
+    .learn-bar .word-cloud-app {
+      width: 550px;
+      margin: 130px auto 40px auto;
+    }
   }
-}
