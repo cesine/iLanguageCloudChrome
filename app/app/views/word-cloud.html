@@ -2,6 +2,7 @@
   <input class="toggle" type="checkbox" ng-model="archived" ng-change="wordCloudArchived(wordCloud)">
   <label>{{title}}</label>
   <div data-word-cloud-viz class="word-cloud-viz" title="Click on a word to hide/boost/change it... Double click to edit the text or punctuation settings..."></div>
+  <div data-word-cloud-node ng-show="wordNodeShow"></div>
   <button class="destroy" ng-click="removeWordCloud(wordCloud)"></button>
 </div>
 <form ng-submit="doneEditing(wordCloud)">

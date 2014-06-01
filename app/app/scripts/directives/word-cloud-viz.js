@@ -4,7 +4,7 @@
 WordCloudApp.directive('wordCloudViz', function($timeout) {
 
   return {
-    template: '<div class="word-cloud-viz"></div><div data-word-cloud-node ng-show="wordNodeShow"></div>',
+    template: '<div class="word-cloud-viz"></div>',
     restrict: 'A',
     // scope: {
     //   wordCloud: '=model'

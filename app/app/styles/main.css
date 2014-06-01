@@ -388,6 +388,7 @@ label[for='toggle-all'] {
 
 
 .word-cloud-node-edit {
+  text-align: center;
   padding: 0.5em;
   margin: 0.5em;
   width: 25em;
@@ -403,7 +404,7 @@ label[for='toggle-all'] {
   overflow: auto !important;
   position: absolute;
   top: 0px;
-  right: 0px;
+  right: 20px;
 }
 
 .node_details_tooltip {
