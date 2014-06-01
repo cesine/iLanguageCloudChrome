@@ -39,7 +39,7 @@ WordCloudApp.directive('wordCloudNode', function() {
             $scope.wordNode.categories.unshift('userRemovedWordAsUnrepresentativeOfThisDocument');
           } else {
             $scope.wordCloud.userRemovedWordsForAllDocumentsArray = $scope.wordCloud.userRemovedWordsForAllDocumentsArray || [];
-            $scope.wordCloud.userRemovedWordsForAllDocumentsArray.unshift($scope.wordNode.orthography)
+            $scope.wordCloud.userRemovedWordsForAllDocumentsArray.unshift($scope.wordNode.orthography);
             $scope.wordNode.categories = $scope.wordNode.categories || [];
             $scope.wordNode.categories.unshift('userRemovedWordFromAllDocuments');
           }
