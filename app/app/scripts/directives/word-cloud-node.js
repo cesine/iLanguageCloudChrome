@@ -45,7 +45,6 @@ WordCloudApp.directive('wordCloudNode', function() {
           }
           // console.log($scope.nonContentWordsSpaceSeparated);
           // $scope.changeNonContentWords($scope.nonContentWordsSpaceSeparated + ' ' + $scope.wordNode.orthography);
-          $scope.wordCloud.render();
           $scope.wordCloud.userPreformedCleaningChanges = $scope.wordCloud.userPreformedCleaningChanges || 0;
           $scope.wordCloud.userPreformedCleaningChanges += 1;
         }
@@ -87,7 +86,10 @@ WordCloudApp.directive('wordCloudNode', function() {
           $scope.wordCloud.userPreformedCleaningChanges += 1;
         }
         $scope.wordNodeShow = keepWordNodeDialogOpenAfterSave;
-        $scope.wordCloud.save();
+        if (!keepWordNodeDialogOpenAfterSave) {
+          $scope.wordCloud.save();
+          $scope.wordCloud.render();
+        }
         $scope.wordNode = null;
         // if (!$scope.$$phase) {
         //   $scope.$apply();
