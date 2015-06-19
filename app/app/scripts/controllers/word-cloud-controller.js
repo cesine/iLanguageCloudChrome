@@ -60,6 +60,8 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
       orthography: newWordCloud,
       archived: false,
       height: 200,
+      dbname: window.db.dbname,
+      corpus: window.db,
       nonContentWordsArray: [],
       prefixesArray: [], // |სა-, სტა-,იმის,-ში/
       suffixesArray: [],
@@ -69,7 +71,7 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
       wordFrequencies: [],
       collection: 'datums',
       lexicalExperience: {},
-      // caseInsensitive: true,
+      // caseSensitivity: false,
       url: wordCloudStorage.dbUrl(),
       enteredByUser: angular.extend({}, navigator)
     });
@@ -93,6 +95,7 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     $timeout(function() {
       wordClouds.unshift(cloudToSave);
     }, 500);
+    cloudToSave.unsaved = true;
     cloudToSave.save();
 
     $scope.newWordCloud = '';

@@ -9,7 +9,6 @@ WordCloudApp.factory('wordCloudStorage', function() {
   var username = 'anonymouswordclouduser1401365327718';
   var dbname = 'anonymouswordclouduser1401365327718-firstcorpus';
 
-  var db;
   var getUserName = function(callbackForGettingUsername) {
 
     chrome.storage.sync.get(USERNAME_STORAGE, function(data) {
@@ -41,23 +40,36 @@ WordCloudApp.factory('wordCloudStorage', function() {
     get: function(callbackForGettingClouds) {
 
       var onceUsernameIsKnown = function() {
-        db = db || new iLanguageClouds({
+        window.db = window.db || new iLanguageClouds({
           username: username,
           dbname: dbname,
           url: 'https://localhost:6984'
         });
-        console.log('fetching clouds for ', db.toJSON());
-        db.fetchCollection('_design/clouds/_view/clouds?descending=true&limit=10').then(function(someclouds) {
-          console.log(someclouds);
-          for (var cloudIndex = 0; cloudIndex < someclouds.length; cloudIndex++) {
-            someclouds[cloudIndex].caseInsensitive = false;
-            someclouds[cloudIndex] = new iLanguageCloud(someclouds[cloudIndex]);
-          }
-          if (typeof callbackForGettingClouds === 'function') {
-            callbackForGettingClouds(someclouds);
-          }
-        }, function(reason) {
-          console.log('No clouds...', reason);
+        console.log('fetching clouds for ', window.db.toJSON());
+        window.db.login({
+          name: window.db.username,
+          authUrl: 'https://localhost:6984/_session',
+          password: 'testtest'
+        }).then(function() {
+          window.db.fetchCollection('_design/clouds/_view/clouds?descending=true&limit=10').then(function(someclouds) {
+            console.log(someclouds);
+            for (var cloudIndex = 0; cloudIndex < someclouds.length; cloudIndex++) {
+              someclouds[cloudIndex].caseInsensitive = false;
+              someclouds[cloudIndex] = new iLanguageCloud(someclouds[cloudIndex]);
+              someclouds[cloudIndex].dbname = window.db.dbname;
+              someclouds[cloudIndex].corpus = window.db;
+              someclouds[cloudIndex].unsaved = true;
+            }
+            if (typeof callbackForGettingClouds === 'function') {
+              callbackForGettingClouds(someclouds);
+            }
+          }, function(reason) {
+            console.log('No clouds...', reason);
+          });
+        }, function(error){
+          console.log('Unable to login please report this.',error);
+        }).fail(function(error){
+          console.log('Unable to login please report this.', error);
         });
       };
 
