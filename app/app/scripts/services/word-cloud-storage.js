@@ -65,10 +65,12 @@ WordCloudApp.factory('wordCloudStorage', function() {
             }
           }, function(reason) {
             console.log('No clouds...', reason);
+          }).fail(function(error) {
+            console.log('Unable to build clouds please report this.', error, error.stack);
           });
-        }, function(error){
-          console.log('Unable to login please report this.',error);
-        }).fail(function(error){
+        }, function(error) {
+          console.log('Unable to login please report this.', error);
+        }).fail(function(error) {
           console.log('Unable to login please report this.', error);
         });
       };
