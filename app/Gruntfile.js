@@ -154,22 +154,22 @@ module.exports = function(grunt) {
       }
     },
 
-    // ngtemplates: {
-    //   app: {
-    //     options : {
-    //       htmlmin: {
-    //         collapseWhitespace: true,
-    //         collapseBooleanAttributes: true,
-    //         removeCommentsFromCDATA: true,
-    //         removeOptionalTags: true
-    //       },
-    //       module: 'WordCloudApp',
-    //     },
-    //     cwd: 'app',
-    //     src: 'views/**.html',
-    //     dest: 'dist/scripts/templates.js'
-    //   }
-    // },
+    ngtemplates: {
+      app: {
+        options : {
+          htmlmin: {
+            collapseWhitespace: true,
+            collapseBooleanAttributes: true,
+            removeCommentsFromCDATA: true,
+            removeOptionalTags: true
+          },
+          module: 'WordCloudApp',
+        },
+        cwd: 'app',
+        src: 'views/**.html',
+        dest: 'dist/scripts/templates.js'
+      }
+    },
 
     htmlmin: {
       dist: {
@@ -244,7 +244,8 @@ module.exports = function(grunt) {
         // 'compass:dist',
         'imagemin',
         'svgmin',
-        'htmlmin'
+        'htmlmin',
+        'ngtemplates'
       ]
     },
     chromeManifest: {
