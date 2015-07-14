@@ -1,6 +1,10 @@
 {
-  "name": "app",
-  "version": "0.0.0",
+  "name": "ilanguage-chrome-angular",
+  "version": "1.0.6",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iLanguage/iLanguageCloudChrome"
+  },
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -33,9 +37,8 @@
     "grunt-angular-templates": "^0.5.4",
     "karma-jasmine": "^0.1.5",
     "karma-chrome-launcher": "^0.1.3",
+    "karma-phantomjs-launcher": "~0.2.0",
     "karma-html2js-preprocessor": "^0.1.0"
   },
-  "engines": {
-    "node": ">=0.8.0"
-  }
+  "license": "Apache-2.0"
 }

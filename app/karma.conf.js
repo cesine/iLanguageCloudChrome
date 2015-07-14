@@ -5,6 +5,7 @@ module.exports = function(config) {
   config.set({
     plugins: [
       'karma-chrome-launcher',
+      'karma-phantomjs-launcher',
       'karma-jasmine',
       'karma-ng-html2js-preprocessor'
     ],

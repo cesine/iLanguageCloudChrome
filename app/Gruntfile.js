@@ -94,6 +94,11 @@ module.exports = function(grunt) {
       unit: {
         configFile: 'karma.conf.js',
         singleRun: true
+      },
+      phantomunit: {
+        configFile: 'karma.conf.js',
+        singleRun: true,
+        browsers: ['PhantomJS']
       }
     },
     // Compiles Sass to CSS and generates necessary files if requested
@@ -295,7 +300,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test', [
     // 'connect:test',
     // 'mocha',
-    'karma'
+    'karma:unit'
   ]);
 
   grunt.registerTask('build', [
@@ -315,6 +320,13 @@ module.exports = function(grunt) {
     'jshint',
     // 'ngtemplates'
     'test',
+    'build'
+  ]);
+
+  grunt.registerTask('travis', [
+    'jshint',
+    // 'ngtemplates'
+    'karma:phantomunit',
     'build'
   ]);
 };
