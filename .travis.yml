@@ -1,4 +1,4 @@
-language: node_js
+language: javascript
 
 node_js:
   - 0.12
@@ -14,7 +14,7 @@ before_install:
   # Download and configure deps
   - npm install -g grunt-cli
   - npm install -g jasmine-node 
-  - npm install
+  - "cd app; npm install"
 
 # before_script:
   # Make sure the emulator has started before running tests
