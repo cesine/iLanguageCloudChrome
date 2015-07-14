@@ -12,7 +12,7 @@ notifications:
 
 before_install:
   # Download and configure deps
-  - npm install -g grunt-cli &&
+  - npm install -g grunt-cli
   - npm install -g jasmine-node 
   - npm install
 
