@@ -1,0 +1,22 @@
+language: node_js
+
+node_js:
+  - 0.12
+
+notifications:
+  email:
+    recipients:
+      - ilanguagelab-dev@googlegroups.com
+    on_success: change
+    on_failure: always
+
+before_install:
+  # Download and configure deps
+  - npm install -g grunt-cli &&
+  - npm install -g jasmine-node 
+  - npm install
+
+# before_script:
+  # Make sure the emulator has started before running tests
+
+script: cd app && grunt
