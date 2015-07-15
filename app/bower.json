@@ -5,5 +5,5 @@
     "angular": "1.2.9",
     "ilanguage-cloud": "git://github.com/iLanguage/iLanguageCloud.git"
   },
-  "main": "dist/scripts/ilanguage-cloud-angular.js, dist/scripts/templates.js"
+  "main": "dist/scripts/ilanguage-cloud-angular.js, dist/scripts/templates.js, dist/styles/ilanguage-cloud-angular.css"
 }
