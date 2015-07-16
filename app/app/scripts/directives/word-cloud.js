@@ -10,13 +10,9 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
       wordCloud: '=model'
     },
     controller: function($scope, $element) {
-      console.log('Setting up wordCloud controller with a word cloud from scope');
-      if ($scope.wordCloud && $scope.wordCloud.title) {
-        $scope.title = $scope.wordCloud.title;
-      }
-      if ($scope.wordCloud && $scope.wordCloud.orthography) {
-        $scope.orthography = $scope.wordCloud.orthography;
-      }
+      console.log('Setting up wordCloudViz controller with a word cloud from scope');
+      $scope.title = $scope.wordCloud.title;
+      $scope.orthography = $scope.wordCloud.orthography;
       // $scope.nonContentWordsSpaceSeparated = $scope.wordCloud.nonContentWordsSpaceSeparated;
       // $scope.morphemesSpaceSeparated = $scope.wordCloud.morphemesSpaceSeparated;
       // $scope.punctuationSpaceSeparated = $scope.wordCloud.punctuationSpaceSeparated;
@@ -44,27 +40,19 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
 
       $scope.editWordCloud = function(wordCloud) {
         $scope.editedWordCloud = wordCloud;
-        if ($rootScope.editingCloudInList) {
-          $rootScope.editingCloudInList(wordCloud);
-        }
+        $rootScope.editingCloudInList(wordCloud);
         // Clone the original wordCloud to restore it on demand.
         $scope.originalWordCloud = $scope.extendDeep({}, wordCloud);
       };
 
       $scope.doneEditing = function(wordCloud) {
         $scope.editedWordCloud = null;
-        if ($rootScope.editingCloudInList) {
-          $rootScope.editingCloudInList(null);
-        }
+        $rootScope.editingCloudInList(null);
 
-        if (wordCloud.orthography) {
-          wordCloud.orthography = wordCloud.orthography.trim();
-        }
+        wordCloud.orthography = wordCloud.orthography.trim();
 
-        if (!wordCloud.orthography && (!wordCloud.lexicon || !wordCloud.lexicon.length)) {
-          if ($rootScope.removeWordCloudFromList) {
-            $rootScope.removeWordCloudFromList(wordCloud);
-          }
+        if (!wordCloud.orthography) {
+          $rootScope.removeWordCloudFromList(wordCloud);
         } else {
           wordCloud.save();
           if (wordCloud.element) {
@@ -80,59 +68,40 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
       $scope.removeWordCloud = function(wordCloud) {
         wordCloud.trashed = 'deleted';
         wordCloud.save();
-        if ($rootScope.removeWordCloudFromList) {
-          $rootScope.removeWordCloudFromList(wordCloud);
-        }
+        $rootScope.removeWordCloudFromList(wordCloud);
       };
 
       $scope.wordCloudArchived = function(wordCloud) {
-        if ($rootScope.wordCloudArchivedFromList) {
-          $rootScope.wordCloudArchivedFromList(wordCloud);
-        }
+        $rootScope.wordCloudArchivedFromList(wordCloud);
         wordCloud.save();
       };
 
-      $scope.refreshWhatsInScope = function(newValue) {
-        if (!newValue) {
-          return;
-        }
-        if ($scope.wordCloud && !$scope.wordCloud.element) {
-          $scope.wordCloud.element = $element[0];
-        }
 
-        $scope.orthography = newValue.orthography;
-        $scope.filteredText = newValue.filteredText;
-        $scope.morphemes = newValue.morphemes;
-        newValue.nonContentWordsArray = newValue.nonContentWordsArray || [];
-        $scope.nonContentWordsSpaceSeparated = $scope.wordCloud.nonContentWordsSpaceSeparated = newValue.nonContentWordsArray.join(' ');
-        
-        newValue.prefixesArray = newValue.prefixesArray || [];
-        newValue.suffixesArray =newValue.suffixesArray || [];
-        $scope.morphemesSpaceSeparated = ($scope.wordCloud.morphemesSpaceSeparated = newValue.prefixesArray.join(' ') + ' ' + newValue.suffixesArray.join(' ')).trim();
-        
-        newValue.punctuationArray = newValue.punctuationArray || [];
-        $scope.punctuationSpaceSeparated = $scope.wordCloud.punctuationSpaceSeparated = newValue.punctuationArray.join(' ');
-        
-        newValue.wordFrequencies = newValue.wordFrequencies || [];
-        $scope.wordFrequenciesLineBreakSeparated = newValue.wordFrequencies.map(function(word) {
-          return word.orthography + ' ' + word.count;
-        }).join('\n');
-
-        newValue.lexicalExperience = newValue.lexicalExperience || {};
-        $scope.lexicalExperienceJSON = JSON.stringify(newValue.lexicalExperience);
-
-      };
+      /* don't make clouds of short texts */
+      if (!$scope.wordCloud.orthography || $scope.wordCloud.orthography.length < 20) {
+        return;
+      }
 
       /*
       prepare the watchers and connect the wordCloud up to the scope
       */
+      $scope.wordCloud.element = $element[0];
 
+      $scope.refreshWhatsInScope = function(newValue) {
+        $scope.orthography = newValue.orthography;
+        $scope.filteredText = newValue.filteredText;
+        $scope.morphemes = newValue.morphemes;
+        $scope.nonContentWordsSpaceSeparated = $scope.wordCloud.nonContentWordsSpaceSeparated = newValue.nonContentWordsArray.join(' ');
+        $scope.morphemesSpaceSeparated = ($scope.wordCloud.morphemesSpaceSeparated = newValue.prefixesArray.join(' ') + ' ' + newValue.suffixesArray.join(' ')).trim();
+        $scope.punctuationSpaceSeparated = $scope.wordCloud.punctuationSpaceSeparated = newValue.punctuationArray.join(' ');
+        $scope.wordFrequenciesLineBreakSeparated = newValue.wordFrequencies.map(function(word) {
+          return word.orthography + ' ' + word.count;
+        }).join('\n');
+        $scope.lexicalExperienceJSON = JSON.stringify(newValue.lexicalExperience);
 
-      /* Refresh the stemmer */
-      if ($scope.wordCloud && $scope.wordCloud.orthography && (!$scope.wordCloud.wordFrequencies || !$scope.wordCloud.wordFrequencies.length)) {
-        console.warn('This cloud is not empty ', $scope.wordCloud);
-        $scope.refreshWhatsInScope($scope.wordCloud.runStemmer().runSegmenter());
-      }
+      };
+      $scope.refreshWhatsInScope($scope.wordCloud.runStemmer().runSegmenter());
+
 
       $scope.$watch('wordCloud', function(newValue, oldValue) {
         console.log('the cloud changed');
@@ -142,24 +111,7 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
         // }
       });
 
-      $scope.$watch('wordCloud.length', function(newValue, oldValue) {
-        if (!$scope.wordCloud) {
-          return;
-        }
-        console.log('the number of words changed', newValue, oldValue);
-        if ($scope.wordCloud && !$scope.wordCloud.element) {
-          $scope.wordCloud.element = $element[0];
-        }
-        $scope.wordCloud.render();
-        // if (!$scope.$$phase) {
-        //   $scope.$apply();
-        // }
-      });
-
       $scope.changeOrthography = function(newValue) {
-        if (!newValue || !$scope.wordCloud) {
-          return;
-        }
         if (newValue === $scope.wordCloud.orthography) {
           return;
         }
