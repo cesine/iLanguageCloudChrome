@@ -12,8 +12,9 @@ WordCloudApp.directive('wordCloudViz', function($timeout) {
     // replace: true,
     controller: function($scope, $element) {
       console.log('Setting up wordCloudViz controller with a word cloud from scope');
-      $scope.wordCloud.element = $element[0];
-
+      if ($scope.wordCloud && !$scope.wordCloud.element) {
+        $scope.wordCloud.element = $element[0];
+      }
       $scope.onWordClick = function(wordNode) {
         wordNode = $scope.initializeWordNode(wordNode);
         $scope.wordNodeShow = true;
@@ -22,16 +23,21 @@ WordCloudApp.directive('wordCloudViz', function($timeout) {
         }
         return wordNode;
       };
-      $scope.wordCloud.onWordClick = $scope.onWordClick;
-
+      if ($scope.wordCloud) {
+        $scope.wordCloud.onWordClick = $scope.onWordClick;
+      }
     },
     link: function postLink(scope, element) {
-      scope.wordCloud.element = element[0];
-      /* don't make clouds of short texts */
-      if (!scope.wordCloud.orthography || scope.wordCloud.orthography.length < 20) {
+      if (!scope.wordCloud) {
+        console.warn("Word cloud hasnt been defined yet");
         return;
       }
-
+      scope.wordCloud.element = element[0];
+      /* do make clouds of short texts */
+      if (!scope.wordCloud.orthography && (!scope.wordCloud.lexicon || !scope.wordCloud.lexicon.length)) {
+        console.warn('This cloud is empty ', scope.wordCloud);
+        return;
+      }
 
       var waitime = Math.min(scope.wordCloud.orthography.length / 100, 1000);
       console.log('Waiting' + waitime);
