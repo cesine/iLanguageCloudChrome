@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - 4
+  - 8
 
 notifications:
   email:
@@ -21,10 +21,13 @@ install:
   # Download and configure deps
   - npm install -g bower
   - npm install -g grunt-cli
+  - npm install grunt
   - npm install -g jasmine-node
   - pwd
   - ls bower.json && bower install
+  - npm install
   # Make sure the emulator has started before running tests
 
 script:
+  - pwd
   - grunt travis

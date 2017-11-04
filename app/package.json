@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "angular": "1.2.9",
-    "ilanguage-cloud": "git://github.com/iLanguage/iLanguageCloud.git"
+    "ilanguage-cloud": "git://github.com/cesine/iLanguageCloud.git"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
@@ -31,6 +31,7 @@
     "grunt-mocha": "^1.0.4",
     "grunt-svgmin": "^4.0.0",
     "grunt-usemin": "^3.1.1",
+    "jasmine-core": "^2.8.0",
     "jshint-stylish": "^2.2.1",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",

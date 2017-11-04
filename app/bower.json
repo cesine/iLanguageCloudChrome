@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "angular": "1.2.9",
-    "ilanguage-cloud": "git://github.com/iLanguage/iLanguageCloud.git"
+    "ilanguage-cloud": "git://github.com/cesine/iLanguageCloud.git"
   },
   "main": "dist/scripts/ilanguage-cloud-angular.js, dist/scripts/templates.js"
 }
