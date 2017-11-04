@@ -51,7 +51,7 @@ WordCloudApp.factory('wordCloudStorage', function() {
           authUrl: 'https://localhost:6984/_session',
           password: 'testtest'
         }).then(function() {
-          window.db.fetchCollection('_design/clouds/_view/clouds?descending=true&limit=10').then(function(someclouds) {
+          window.db.fetchCollection('_design/clouds/_view/clouds?descending=true&limit=2').then(function(someclouds) {
             console.log(someclouds);
             for (var cloudIndex = 0; cloudIndex < someclouds.length; cloudIndex++) {
               someclouds[cloudIndex].caseInsensitive = false;
