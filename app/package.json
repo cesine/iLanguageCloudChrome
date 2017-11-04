@@ -5,7 +5,10 @@
     "type": "git",
     "url": "https://github.com/iLanguage/iLanguageCloudChrome"
   },
-  "dependencies": {},
+  "dependencies": {
+    "angular": "1.2.9",
+    "ilanguage-cloud": "git://github.com/iLanguage/iLanguageCloud.git"
+  },
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-angular-templates": "^1.1.0",
