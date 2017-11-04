@@ -8,6 +8,7 @@
  */
 WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $location, $filter, wordCloudStorage, $rootScope, $timeout) {
   var wordClouds = $scope.wordClouds = [];
+  $scope.cloudType = 'page load';
 
   // If there is saved data in storage, use it.
   // https://developer.chrome.com/apps/app_codelab5_data
@@ -89,11 +90,15 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
       cloudToSave.title = cloudToSave.orthography.substring(0, titleLength) + '...';
     }
 
+
+
+
     while (wordClouds.length > 0) {
       wordClouds.pop();
     }
     $timeout(function() {
       wordClouds.unshift(cloudToSave);
+      
     }, 500);
     cloudToSave.unsaved = true;
     cloudToSave.save();
@@ -101,7 +106,6 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     $scope.newWordCloud = '';
     $scope.remainingCount++;
   };
-
   $rootScope.editingCloudInList = function(wordCloud) {
     $scope.editedWordCloud = wordCloud;
   };
