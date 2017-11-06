@@ -1,4 +1,4 @@
-/*global WordCloudApp, iLanguageCloud, iLanguageClouds */
+/*global WordCloudApp, ILanguageCloud, ILanguageClouds */
 'use strict';
 
 /**
@@ -6,8 +6,8 @@
  */
 WordCloudApp.factory('wordCloudStorage', function() {
   var USERNAME_STORAGE = 'wordClouds-username';
-  var username = 'anonymouswordclouduser1401365327718';
-  var dbname = 'anonymouswordclouduser1401365327718-firstcorpus';
+  var username = 'anonymouswordclouduser1509826445309';
+  var dbname = 'anonymouswordclouduser1509826445309-firstcorpus';
 
   var getUserName = function(callbackForGettingUsername) {
 
@@ -40,22 +40,22 @@ WordCloudApp.factory('wordCloudStorage', function() {
     get: function(callbackForGettingClouds) {
 
       var onceUsernameIsKnown = function() {
-        window.db = window.db || new iLanguageClouds({
+        window.db = window.db || new ILanguageClouds({
           username: username,
           dbname: dbname,
-          url: 'https://localhost:6984'
+          url: 'http://localhost:5984'
         });
         console.log('fetching clouds for ', window.db.toJSON());
         window.db.login({
           name: window.db.username,
-          authUrl: 'https://localhost:6984/_session',
+          authUrl: 'http://localhost:5984/_session',
           password: 'testtest'
         }).then(function() {
-          window.db.fetchCollection('_design/clouds/_view/clouds?descending=true&limit=2').then(function(someclouds) {
+          window.db.fetchCollection('/_design/clouds/_view/clouds?descending=true&limit=5').then(function(someclouds) {
             console.log(someclouds);
             for (var cloudIndex = 0; cloudIndex < someclouds.length; cloudIndex++) {
               someclouds[cloudIndex].caseInsensitive = false;
-              someclouds[cloudIndex] = new iLanguageCloud(someclouds[cloudIndex]);
+              someclouds[cloudIndex] = new ILanguageCloud(someclouds[cloudIndex]);
               someclouds[cloudIndex].dbname = window.db.dbname;
               someclouds[cloudIndex].corpus = window.db;
               someclouds[cloudIndex].unsaved = true;
@@ -91,7 +91,7 @@ WordCloudApp.factory('wordCloudStorage', function() {
 
     // },
     dbUrl: function() {
-      return 'https://localhost:6984/' + dbname;
+      return 'http://localhost:5984/' + dbname;
     }
   };
 });
