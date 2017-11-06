@@ -4,13 +4,13 @@ Generate interactive wordclouds for any language, with automatic stop word detec
 
 ### In the browser
 
-Install from the Chrome Store, or from source. 
+Install from the Chrome Store, or from source.
 
 https://chrome.google.com/webstore/detail/ilanguagecloud/jgnohfgfghkpfofkljhmikdpohajopan
 
 ## From Source
 
-You can load the app from source by 
+You can load the app from source by
 
 * Clone the project
 * npm install
@@ -30,9 +30,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 * v1.0 Feb 9 2012 - Initial word cloud using CSS rotation in vanilla js
 * v2.0 Jan 29 2013 - WordPress plugin with SVG generation in vanilla js
-* v3.0 Nov 15 2013 - Switched to Jason Davies' [d3-cloud](https://github.com/iLanguage/d3-cloud) to generate SVG 
+* v3.0 Nov 15 2013 - Switched to Jason Davies' [d3-cloud](https://github.com/iLanguage/d3-cloud) to generate SVG
 [Download on Google Play](https://play.google.com/store/apps/details?id=ca.ilanguage.ilanguagecloud)
 
 ## License
- 
-Copyright (c) 2012-2014 iLanguage Cloud Contributors. Licensed under the Apache 2.0 license.
+
+Copyright (c) 2012-2017 iLanguage Cloud Contributors. Licensed under the Apache 2.0 license.

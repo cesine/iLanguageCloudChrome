@@ -1,6 +1,6 @@
 {
   "name": "ilanguage-cloud-angular",
-  "version": "0.0.0",
+  "version": "1.0.6",
   "dependencies": {
     "angular": "1.2.9",
     "ilanguage-cloud": "git://github.com/cesine/iLanguageCloud.git"
