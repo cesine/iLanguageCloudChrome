@@ -13,7 +13,8 @@
     <body>
         <section class="word-cloud-app" ng-controller="WordCloudCtrl">
             <header class="header">
-                <h1 title="Generate wordclouds for any language and any Unicode charset, with automatic language  detection">word clouds <small hidden>beta</small></h1>
+                <h1 title="Generate wordclouds for any language and any Unicode charset, with automatic language  detection">{{wordClouds[0].
+                cloudType}} <small hidden>beta</small></h1>
                 <form id="word-cloud-form" ng-submit="addWordCloud()">
                     <input class="new-word-cloud" placeholder="Paste your text here..." ng-model="newWordCloud" autofocus>
                 </form>

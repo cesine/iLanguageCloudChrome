@@ -1,7 +1,7 @@
-language: javascript
+language: node_js
 
 node_js:
-  - 0.12
+  - 8
 
 notifications:
   email:
@@ -15,13 +15,19 @@ before_script:
   - 'export DISPLAY=:99.0'
   - sh -e /etc/init.d/xvfb start
 
-before_install:
-  # Download and configure deps
-  - npm install -g grunt-cli
-  - npm install -g jasmine-node 
-  - "cd app; npm install"
 
-# before_script:
+install:
+  - cd app
+  # Download and configure deps
+  - npm install -g bower
+  - npm install -g grunt-cli
+  - npm install grunt
+  - npm install -g jasmine-node
+  - pwd
+  - ls bower.json && bower install
+  - npm install
   # Make sure the emulator has started before running tests
 
-script: cd app && grunt travis
+script:
+  - pwd
+  - grunt travis

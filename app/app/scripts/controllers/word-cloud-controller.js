@@ -1,4 +1,4 @@
-/*global WordCloudApp, iLanguageCloud */
+/*global WordCloudApp, ILanguageCloud */
 'use strict';
 
 /**
@@ -8,6 +8,7 @@
  */
 WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $location, $filter, wordCloudStorage, $rootScope, $timeout) {
   var wordClouds = $scope.wordClouds = [];
+  $scope.cloudType = 'page load';
 
   // If there is saved data in storage, use it.
   // https://developer.chrome.com/apps/app_codelab5_data
@@ -56,7 +57,7 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     if (newWordCloud.length === 0) {
       return;
     }
-    var cloudToSave = new iLanguageCloud({
+    var cloudToSave = new ILanguageCloud({
       orthography: newWordCloud,
       archived: false,
       height: 200,
@@ -101,7 +102,6 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     $scope.newWordCloud = '';
     $scope.remainingCount++;
   };
-
   $rootScope.editingCloudInList = function(wordCloud) {
     $scope.editedWordCloud = wordCloud;
   };
