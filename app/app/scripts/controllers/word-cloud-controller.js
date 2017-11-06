@@ -1,4 +1,4 @@
-/*global WordCloudApp, iLanguageCloud */
+/*global WordCloudApp, ILanguageCloud */
 'use strict';
 
 /**
@@ -57,7 +57,7 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     if (newWordCloud.length === 0) {
       return;
     }
-    var cloudToSave = new iLanguageCloud({
+    var cloudToSave = new ILanguageCloud({
       orthography: newWordCloud,
       archived: false,
       height: 200,
@@ -90,15 +90,11 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
       cloudToSave.title = cloudToSave.orthography.substring(0, titleLength) + '...';
     }
 
-
-
-
     while (wordClouds.length > 0) {
       wordClouds.pop();
     }
     $timeout(function() {
       wordClouds.unshift(cloudToSave);
-      
     }, 500);
     cloudToSave.unsaved = true;
     cloudToSave.save();
