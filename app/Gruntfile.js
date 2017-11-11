@@ -34,7 +34,8 @@ module.exports = function(grunt) {
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= yeoman.app %>/manifest.json',
           '<%= yeoman.app %>/_locales/{,*/}*.json'
-        ]
+        ],
+        tasks: ['build']
       }
     },
     connect: {
@@ -304,6 +305,21 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'clean:dist',
+    'chromeManifest:dist',
+    'useminPrepare',
+    'concurrent:dist',
+    'cssmin',
+    'concat',
+    // 'uglify',
+    'copy',
+    'usemin'
+  ]);
+
+  grunt.registerTask('release', [
+    'jshint',
+    // 'ngtemplates'
+    'test',
     'clean:dist',
     'chromeManifest:dist',
     'useminPrepare',
