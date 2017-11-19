@@ -101,8 +101,8 @@ WordCloudApp.directive('wordCloudNode', function() {
         }
         $scope.wordNodeShow = keepWordNodeDialogOpenAfterSave;
         if (!keepWordNodeDialogOpenAfterSave) {
-          $scope.wordCloud.save();
           $scope.wordCloud.render();
+          $scope.wordCloud.save();
         }
         $scope.wordNode = null;
         // if (!$scope.$$phase) {

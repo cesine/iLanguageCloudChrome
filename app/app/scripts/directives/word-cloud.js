@@ -144,7 +144,9 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
 
         $scope.wordCloud.nonContentWordsArray = newValue;
         var previousWordFrequencyLength = $scope.wordCloud.wordFrequencies.length;
-        $scope.wordCloud.runWordFrequencyGenerator().runStemmer();
+        $scope.wordCloud.runStemmer();
+        $scope.wordCloud.runWordFrequencyGenerator();
+        $scope.wordCloud.render();
 
         // $scope.nonContentWordsArray = $scope.wordCloud.nonContentWordsArray = newValue;
         // $scope.nonContentWordsArray = $scope.wordCloud.nonContentWordsArray = newValue;
