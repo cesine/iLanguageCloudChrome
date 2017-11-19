@@ -49,13 +49,13 @@ WordCloudApp.directive('wordCloudNode', function() {
           $scope.wordCloud.userPreformedCleaningChanges += 1;
         }
 
-        if ($scope.wordNodeOriginal.count !== $scope.wordNode.count) {
+        if ($scope.wordNodeOriginal.size !== $scope.wordNode.size) {
           $scope.wordCloud.userDefinedBoostingRules = $scope.wordCloud.userDefinedBoostingRules || [];
           $scope.wordCloud.userDefinedBoostingRules.push({
             orthography: $scope.wordNode.orthography,
-            source: $scope.wordNodeOriginal.count,
+            source: $scope.wordNodeOriginal.size,
             relation: 'wasBoostedTo',
-            target: $scope.wordNode.count,
+            target: $scope.wordNode.size,
             context: $scope.wordCloud.textSize
           });
           $scope.wordCloud.userPreformedCleaningChanges = $scope.wordCloud.userPreformedCleaningChanges || 0;
