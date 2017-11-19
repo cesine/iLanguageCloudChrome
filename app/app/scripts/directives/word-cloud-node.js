@@ -62,6 +62,20 @@ WordCloudApp.directive('wordCloudNode', function() {
           $scope.wordCloud.userPreformedCleaningChanges += 1;
         }
 
+        if ($scope.wordNodeOriginal.boost !== $scope.wordNode.boost) {
+          $scope.wordNode.size = null;
+          $scope.wordCloud.userDefinedBoostingRules = $scope.wordCloud.userDefinedBoostingRules || [];
+          $scope.wordCloud.userDefinedBoostingRules.push({
+            orthography: $scope.wordNode.orthography,
+            source: $scope.wordNodeOriginal.boost,
+            relation: 'wasBoostedTo',
+            target: $scope.wordNode.boost,
+            context: $scope.wordCloud.textSize
+          });
+          $scope.wordCloud.userPreformedCleaningChanges = $scope.wordCloud.userPreformedCleaningChanges || 0;
+          $scope.wordCloud.userPreformedCleaningChanges += 1;
+        }
+
         if ($scope.wordNodeOriginal.orthography !== $scope.wordNode.orthography) {
           $scope.wordCloud.userDefinedCleaningReWriteRules = $scope.wordCloud.userDefinedCleaningReWriteRules || [];
           $scope.wordCloud.userDefinedCleaningReWriteRules.push({
