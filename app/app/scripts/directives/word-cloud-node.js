@@ -23,6 +23,7 @@ WordCloudApp.directive('wordCloudNode', function() {
         $scope.wordNode = wordNode;
         wordNode.morphemes = wordNode.morphemes || wordNode.orthography;
         $scope.wordNodeOriginal = $scope.extendDeep({}, wordNode);
+        $scope.showAlternates = wordNode.alternates;
 
         return wordNode;
       };
@@ -49,13 +50,27 @@ WordCloudApp.directive('wordCloudNode', function() {
           $scope.wordCloud.userPreformedCleaningChanges += 1;
         }
 
-        if ($scope.wordNodeOriginal.count !== $scope.wordNode.count) {
+        if ($scope.wordNodeOriginal.size !== $scope.wordNode.size) {
           $scope.wordCloud.userDefinedBoostingRules = $scope.wordCloud.userDefinedBoostingRules || [];
           $scope.wordCloud.userDefinedBoostingRules.push({
             orthography: $scope.wordNode.orthography,
-            source: $scope.wordNodeOriginal.count,
+            source: $scope.wordNodeOriginal.size,
             relation: 'wasBoostedTo',
-            target: $scope.wordNode.count,
+            target: $scope.wordNode.size,
+            context: $scope.wordCloud.textSize
+          });
+          $scope.wordCloud.userPreformedCleaningChanges = $scope.wordCloud.userPreformedCleaningChanges || 0;
+          $scope.wordCloud.userPreformedCleaningChanges += 1;
+        }
+
+        if ($scope.wordNodeOriginal.boost !== $scope.wordNode.boost) {
+          $scope.wordNode.size = null;
+          $scope.wordCloud.userDefinedBoostingRules = $scope.wordCloud.userDefinedBoostingRules || [];
+          $scope.wordCloud.userDefinedBoostingRules.push({
+            orthography: $scope.wordNode.orthography,
+            source: $scope.wordNodeOriginal.boost,
+            relation: 'wasBoostedTo',
+            target: $scope.wordNode.boost,
             context: $scope.wordCloud.textSize
           });
           $scope.wordCloud.userPreformedCleaningChanges = $scope.wordCloud.userPreformedCleaningChanges || 0;
@@ -87,8 +102,8 @@ WordCloudApp.directive('wordCloudNode', function() {
         }
         $scope.wordNodeShow = keepWordNodeDialogOpenAfterSave;
         if (!keepWordNodeDialogOpenAfterSave) {
-          $scope.wordCloud.save();
           $scope.wordCloud.render();
+          $scope.wordCloud.save();
         }
         $scope.wordNode = null;
         // if (!$scope.$$phase) {
