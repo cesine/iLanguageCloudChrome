@@ -23,6 +23,7 @@ WordCloudApp.directive('wordCloudNode', function() {
         $scope.wordNode = wordNode;
         wordNode.morphemes = wordNode.morphemes || wordNode.orthography;
         $scope.wordNodeOriginal = $scope.extendDeep({}, wordNode);
+        $scope.showAlternates = wordNode.alternates;
 
         return wordNode;
       };

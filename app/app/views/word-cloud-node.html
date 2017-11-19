@@ -26,13 +26,13 @@
     <dd hidden>
       <input  ng-model="wordNode.weight" type="number" class="fieldvalue" title="Font weight">
     </dd>
-    <dt>
+    <dt ng-show="showAlternates">
       <span class="fieldlabel">
         Alternates:
       </span>
     </dt>
-    <dd>
-      <input  ng-model="wordNode.alternates" type="text" class="fieldvalue" title="Comma separated alternate forms which should be combined into this one">
+    <dd ng-show="showAlternates">
+      <input ng-repeat="(key, value) in wordNode.alternates" class="fieldvalue" disabled ng-model="key" title="This alternate appeared {{value}} times." />
     </dd>
     <dt>
       <span class="fieldlabel">
