@@ -63,18 +63,18 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
       height: 200,
       dbname: window.db.dbname,
       corpus: window.db,
-      nonContentWordsArray: [],
-      prefixesArray: [], // |სა-, სტა-,იმის,-ში/
-      suffixesArray: [],
-      punctuationArray: [],
-      wordDelimitersArray: [],
-      fineWordInternallyButNotExternallyArray: [],
-      wordFrequencies: [],
+      // nonContentWordsArray: [],
+      // prefixesArray: [], // |სა-, სტა-,იმის,-ში/
+      // suffixesArray: [],
+      // punctuationArray: [],
+      // wordDelimitersArray: [],
+      // fineWordInternallyButNotExternallyArray: [],
+      // wordFrequencies: [],
       collection: 'datums',
       lexicalExperience: {},
       // caseSensitivity: false,
       url: wordCloudStorage.dbUrl(),
-      enteredByUser: angular.extend({}, navigator)
+      // enteredByUser: angular.extend({}, navigator)
     });
 
     /* make the longer texts have more vertical space */
