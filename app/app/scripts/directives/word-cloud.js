@@ -100,7 +100,9 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
         $scope.lexicalExperienceJSON = JSON.stringify(newValue.lexicalExperience);
 
       };
-      $scope.refreshWhatsInScope($scope.wordCloud.runStemmer().runSegmenter());
+
+      // render will auto generate wordFrequencies if there are none
+      // $scope.refreshWhatsInScope($scope.wordCloud.runStemmer().runSegmenter());
 
 
       $scope.$watch('wordCloud', function(newValue, oldValue) {
