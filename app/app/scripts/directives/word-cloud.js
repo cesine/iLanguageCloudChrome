@@ -92,7 +92,7 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
         $scope.filteredText = newValue.filteredText;
         $scope.morphemes = newValue.morphemes;
         $scope.nonContentWordsSpaceSeparated = $scope.wordCloud.nonContentWordsSpaceSeparated = newValue.nonContentWordsArray.join(' ');
-        $scope.morphemesSpaceSeparated = ($scope.wordCloud.morphemesSpaceSeparated = newValue.prefixesArray.join(' ') + ' ' + newValue.suffixesArray.join(' ')).trim();
+        $scope.morphemesSpaceSeparated = ($scope.wordCloud.morphemesSpaceSeparated = newValue.morphemesArray.join(' ') + newValue.prefixesArray.join(' ') + ' ' + newValue.suffixesArray.join(' ')).trim();
         $scope.punctuationSpaceSeparated = $scope.wordCloud.punctuationSpaceSeparated = newValue.punctuationArray.join(' ');
         $scope.wordFrequenciesLineBreakSeparated = newValue.wordFrequencies.map(function(word) {
           return word.orthography + ' ' + word.count;
@@ -100,7 +100,9 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
         $scope.lexicalExperienceJSON = JSON.stringify(newValue.lexicalExperience);
 
       };
-      $scope.refreshWhatsInScope($scope.wordCloud.runStemmer().runSegmenter());
+
+      // render will auto generate wordFrequencies if there are none
+      // $scope.refreshWhatsInScope($scope.wordCloud.runStemmer().runSegmenter());
 
 
       $scope.$watch('wordCloud', function(newValue, oldValue) {
@@ -173,8 +175,11 @@ WordCloudApp.directive('wordCloud', function($rootScope) {
         console.log('changeMorphemes');
         $scope.wordCloud.morphemesArray = newValue;
 
+        delete $scope.wordCloud.layout;
+        $scope.wordCloud.runWordFrequencyGenerator();
         $scope.wordCloud.runSegmenter();
-        $scope.wordCloud.runStemmer();
+        $scope.wordCloud.render();
+        // $scope.wordCloud.runStemmer();
         // $scope.orthography = newValue.orthography;
         // $scope.nonContentWordsSpaceSeparated = newValue.nonContentWordsSpaceSeparated;
         // $scope.morphemesSpaceSeparated = newValue.morphemesSpaceSeparated;
