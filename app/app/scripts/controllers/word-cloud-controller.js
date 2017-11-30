@@ -57,6 +57,13 @@ WordCloudApp.controller('WordCloudCtrl', function WordCloudCtrl($scope, $locatio
     if (newWordCloud.length === 0) {
       return;
     }
+    if (newWordCloud.indexOf(' ') === -1 && newWordCloud.length < 30) {
+      $scope.newWordCloud = $scope.newWordCloud + ' \n';
+      if (!$scope.$$phase) {
+        $scope.$apply();
+      }
+      return;
+    }
     var cloudToSave = new ILanguageCloud({
       orthography: newWordCloud,
       archived: false,
